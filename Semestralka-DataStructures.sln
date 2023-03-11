@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33403.182
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Semestralka-DataStructures", "Semestralka-DataStructures\Semestralka-DataStructures.vcxproj", "{FAF38A28-B441-410B-AFC0-9C4DAFD6D81F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAF38A28-B441-410B-AFC0-9C4DAFD6D81F}.Debug|x64.ActiveCfg = Debug|x64
+		{FAF38A28-B441-410B-AFC0-9C4DAFD6D81F}.Debug|x64.Build.0 = Debug|x64
+		{FAF38A28-B441-410B-AFC0-9C4DAFD6D81F}.Debug|x86.ActiveCfg = Debug|Win32
+		{FAF38A28-B441-410B-AFC0-9C4DAFD6D81F}.Debug|x86.Build.0 = Debug|Win32
+		{FAF38A28-B441-410B-AFC0-9C4DAFD6D81F}.Release|x64.ActiveCfg = Release|x64
+		{FAF38A28-B441-410B-AFC0-9C4DAFD6D81F}.Release|x64.Build.0 = Release|x64
+		{FAF38A28-B441-410B-AFC0-9C4DAFD6D81F}.Release|x86.ActiveCfg = Release|Win32
+		{FAF38A28-B441-410B-AFC0-9C4DAFD6D81F}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C88EF98-ABBC-412A-A873-07AC9D060939}
+	EndGlobalSection
+EndGlobal
