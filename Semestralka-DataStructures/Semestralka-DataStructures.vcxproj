@@ -42,6 +42,7 @@
     <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\mm\compact_memory_manager.h" />
     <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\mm\memory_manager.h" />
     <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\mm\memory_omanip.h" />
+    <ClInclude Include="filter.h" />
     <ClInclude Include="loader.h" />
     <ClInclude Include="uzemnaJednotka.h" />
   </ItemGroup>

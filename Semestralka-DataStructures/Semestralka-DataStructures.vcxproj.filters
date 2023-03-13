@@ -80,6 +80,7 @@
     </ClInclude>
     <ClInclude Include="loader.h" />
     <ClInclude Include="uzemnaJednotka.h" />
+    <ClInclude Include="filter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

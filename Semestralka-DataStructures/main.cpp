@@ -24,17 +24,23 @@ int main() {
     
 
     std::map<std::string, uzemnaJednotka*>* obce = new std::map<std::string,uzemnaJednotka*>();
+    std::map<std::string, uzemnaJednotka*>* okresy = new std::map<std::string,uzemnaJednotka*>();
+    std::map<std::string, uzemnaJednotka*>* kraje = new std::map<std::string,uzemnaJednotka*>();
 
 
     loader->loadObce(obce);
-    //for (auto& entry : *obce) {
-    //    std::cout << "{" << entry.first << ", " << entry.second << "}" << std::endl;
-    //}
+    loader->loadOkresy(okresy);
+    loader->loadKraje(kraje);
+    for (auto& entry : *kraje) {
+        std::cout << "{" << entry.first << ", " << entry.second << "}" << std::endl;
+    }
 
     
     delete loader;
     delete obce;
+    delete okresy;
+    delete kraje;
 
-    std::cout << "Hello World!";
+    //std::cout << "Hello World!";
     return 0;
 }
