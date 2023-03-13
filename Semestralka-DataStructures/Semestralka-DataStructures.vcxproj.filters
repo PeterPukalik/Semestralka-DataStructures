@@ -1,22 +1,98 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="libds">
+      <UniqueIdentifier>{768576b8-ced6-4448-ae18-30add159cab5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="csvFiles">
+      <UniqueIdentifier>{39082f98-d070-4073-8cf3-93e82d342fe1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Semestralka-DataStructures.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\abstract_data_type.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\array.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\list.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\priority_queue.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\queue.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\sorts.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\stack.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\table.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\tree.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\abstract_memory_type.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\explicit_hierarchy.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\explicit_network.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\explicit_sequence.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\hierarchy.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\implicit_hierarchy.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\implicit_sequence.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\network.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\sequence.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\constants.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\heap_monitor.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\mm\compact_memory_manager.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\mm\memory_manager.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\mm\memory_omanip.h">
+      <Filter>libds</Filter>
+    </ClInclude>
+    <ClInclude Include="loader.h" />
+    <ClInclude Include="uzemnaJednotka.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\kraje.csv">
+      <Filter>csvFiles</Filter>
+    </None>
+    <None Include="..\obce.csv">
+      <Filter>csvFiles</Filter>
+    </None>
+    <None Include="..\okresy.csv">
+      <Filter>csvFiles</Filter>
+    </None>
   </ItemGroup>
 </Project>
