@@ -66,7 +66,7 @@ inline void Loader::loadKraje(std::map<std::string, uzemnaJednotka*>* kraje) {
 		uzemnaJednotka* uzemnJ = new uzemnaJednotka();
 		uzemnJ->setCode(code);
 		uzemnJ->setName(name);
-		//std::cout << name << " " << code << "\n";
+		std::cout << name << " " << code << "\n";
 
 		/*obce->insert(std::map<std::string, uzemnaJednotka*>::value_type(name, uzemnJ));*/
 		kraje->insert(std::pair < std::string, uzemnaJednotka*>(name, uzemnJ));
