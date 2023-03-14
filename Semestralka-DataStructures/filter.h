@@ -13,9 +13,9 @@ public:
 
 
 
-	template<typename Iterator,typename Function>
+	template<typename Iterator>
 	//std::map<std::string, uzemnaJednotka*>* findNameWithProperty(std::map<std::string, uzemnaJednotka*>* predicate,Iterator begin, Iterator end,Function func) const;
-	void findNameWithProperty(std::map<std::string, uzemnaJednotka*>* predicate,Iterator begin, Iterator end,Function func) const;
+	void findNameWithProperty(std::map<std::string, uzemnaJednotka*>* predicate,Iterator begin, Iterator end, std::function<bool(std::pair<const std::string, uzemnaJednotka*>)> func ) const;
 
 
 };
@@ -28,13 +28,14 @@ inline Filter::~Filter()
 {
 }
 
-template<typename Iterator,typename Function>
-inline void Filter::findNameWithProperty(std::map<std::string, uzemnaJednotka*>* predicate, Iterator begin, Iterator end, Function func) const
+template<typename Iterator>
+inline void Filter::findNameWithProperty(std::map<std::string, uzemnaJednotka*>* predicate, Iterator begin, Iterator end, std::function<bool(std::pair<const std::string, uzemnaJednotka*>)> func) const
 {
-	for (Iterator it = begin; it != end; ++it) {
-		if (func) {
-			std::string name = (*it).first;
-			//i want to save to predicate on possiton [name] same thing as in (*it)
-		}
-	}
+    for (Iterator it = begin; it != end; ++it) {
+        if (func(*it)) {
+            //std::string name = (*it).first;
+            //*predicate->operator[](name) = *it->second;
+            predicate->insert(std::pair < std::string, uzemnaJednotka*>((*it).first, (*it).second));
+        }
+    }
 }

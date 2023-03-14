@@ -37,20 +37,74 @@ int main() {
     int control = 0;
     int filterNumber = 0;
     std::map<std::string, uzemnaJednotka*>* temp = new std::map<std::string, uzemnaJednotka*>();
+    std::string prefix = "";
     while (!end) {
         std::cout << "tvoje moznosti su:\n 1.filtrovat \n 2.end \n zadaj cislo pre pokracovanie \n ";
         std::cin >> control;
         switch (control) {
         case 1:
-            std::cout << "zvolil si filtrovanie \n mas moznost: \n 1. pre filtrovanie startwithStr \n 2. pre filtrovanie containsStr";
+            std::cout << "zvolil si filtrovanie \n mas moznost: \n 1. pre filtrovanie startwithStr \n 2. pre filtrovanie containsStr \n";
             std::cin >> filterNumber;
             switch (filterNumber) {
             case 1:
-                filter->findNameWithProperty(temp, obce->begin(), obce->end(), [](){});
-                filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), []() {});
-                filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), []() {});
+                std::cout << "zadaj slovo na ktore ma zacinat \n";
+                std::cin >> prefix;
+                filter->findNameWithProperty(temp, obce->begin(), obce->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry.first.length() < prefix.length()) {
+                            return false;
+                        }
+
+                // Check if the first prefix.length() characters of str match prefix
+                for (size_t i = 0; i < prefix.length(); ++i) {
+                    if (entry.first[i] != prefix[i]) {
+                        return false;
+                    }
+                }
+
+                return true;
+                    });
+                filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry.first.length() < prefix.length()) {
+                            return false;
+                        }
+
+                // Check if the first prefix.length() characters of str match prefix
+                for (size_t i = 0; i < prefix.length(); ++i) {
+                    if (entry.first[i] != prefix[i]) {
+                        return false;
+                    }
+                }
+
+                return true;
+                    });
+                filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry.first.length() < prefix.length()) {
+                            return false;
+                        }
+
+                // Check if the first prefix.length() characters of str match prefix
+                for (size_t i = 0; i < prefix.length(); ++i) {
+                    if (entry.first[i] != prefix[i]) {
+                        return false;
+                    }
+                }
+
+                return true;
+                    });
+
+                for (const auto& elem : *temp)
+                {
+                    std::cout << elem.first << " " << elem.second << " " << "\n";
+                }
+                temp->clear();
+                filterNumber = 0;
                 break;
             case 2:
+
+
                 break;
             default:
                 break;
@@ -62,6 +116,7 @@ int main() {
 
             break;
         default:
+
             break;
         }
 
@@ -75,6 +130,7 @@ int main() {
     delete okresy;
     delete kraje;
     delete temp;
+    delete filter;
 
     //std::cout << "Hello World!";
     return 0;
