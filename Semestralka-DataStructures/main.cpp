@@ -38,6 +38,9 @@ int main() {
     int filterNumber = 0;
     std::map<std::string, uzemnaJednotka*>* temp = new std::map<std::string, uzemnaJednotka*>();
     std::string prefix = "";
+
+
+
     while (!end) {
         std::cout << "tvoje moznosti su:\n 1.filtrovat \n 2.end \n zadaj cislo pre pokracovanie \n ";
         std::cin >> control;
@@ -103,10 +106,58 @@ int main() {
                 filterNumber = 0;
                 break;
             case 2:
+                std::cout << "zadaj slovo ktore ma obashovat \n";
+                std::cin >> prefix;
+                filter->findNameWithProperty(temp, obce->begin(), obce->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry.first.length() < prefix.length()) {
+                            return false;
+                        }
 
+                        if (entry.first.find(prefix) != std::string::npos) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    });
+                filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry.first.length() < prefix.length()) {
+                            return false;
+                        }
+                        if (entry.first.find(prefix) != std::string::npos) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    });
+                filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry.first.length() < prefix.length()) {
+                            return false;
+                        }
+
+                        if (entry.first.find(prefix) != std::string::npos) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    });
+
+                for (const auto& elem : *temp)
+                {
+                    std::cout << elem.first << " " << elem.second << " " << "\n";
+                }
+                temp->clear();
+                filterNumber = 0;
 
                 break;
             default:
+                std::cout << "invalid input";
+                std::cin >> filterNumber;
                 break;
             }
             break;
@@ -116,7 +167,8 @@ int main() {
 
             break;
         default:
-
+            std::cout << "invalid input \n";
+            std::cin >> control;
             break;
         }
 
