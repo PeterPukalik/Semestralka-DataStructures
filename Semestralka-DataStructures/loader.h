@@ -72,9 +72,9 @@ inline void Loader::loadKraje(std::map<std::string, uzemnaJednotka*>* kraje, std
 		kraje->insert(std::pair < std::string, uzemnaJednotka*>(name, uzemnJ));
 
 		for (auto& item : *okresy) {
-			//if (item.second->getCode().substr(3,1).compare(code) == 0) { //substr ( odkial, kolko )
-			//	item.second->setParent(name);
-			//}
+			if (item.second->getCode().substr(3,1).compare(code) == 0) { //substr ( odkial, kolko )
+				item.second->setParent(name);
+			}
 
 		}
 

@@ -100,7 +100,7 @@ int main() {
 
                 for (const auto& elem : *temp)
                 {
-                    std::cout << elem.second->getName() << " " << elem.second->getCode() << " " << elem.second->getParent() << "\n";
+                    std::cout << elem.second->getName() << " | " << elem.second->getParent() << " | " << elem.second->getCode() << "\n";
                     //std::cout << elem.second->toString();
                 }
                 temp->clear();
@@ -150,7 +150,7 @@ int main() {
 
                 for (const auto& elem : *temp)
                 {
-                    std::cout << elem.second->getName() << " " << elem.second->getCode() << " " << elem.second->getParent()<< "\n";
+                    std::cout << elem.second->getName() << " | " << elem.second->getParent() << " | " << elem.second->getCode() << "\n";
                     //std::cout << elem.second->toString();
                 }
                 temp->clear();
@@ -179,7 +179,7 @@ int main() {
 
 
 
-    delete loader;
+
     for (auto& item : *obce) {
         delete item.second;
     }
@@ -191,9 +191,12 @@ int main() {
     for (auto& item : *kraje) {
         delete item.second;
     }
+
+
     delete kraje;
     delete temp;
     delete filter;
+    delete loader;
 
     //std::cout << "Hello World!";
     return 0;
