@@ -19,8 +19,8 @@ public:
 
 
 
-	void loadKraje(std::map<std::string, uzemnaJednotka*>* kraje);
-	void loadOkresy(std::map<std::string, uzemnaJednotka*>* okresy);
+	void loadKraje(std::map<std::string, uzemnaJednotka*>* kraje, std::map<std::string, uzemnaJednotka*>* okresy);
+	void loadOkresy(std::map<std::string, uzemnaJednotka*>* okresy, std::map<std::string, uzemnaJednotka*>* obce);
 	void loadObce(std::map<std::string, uzemnaJednotka*>* obce);
 	
 
@@ -37,7 +37,7 @@ inline Loader::~Loader()
 {
 }
 
-inline void Loader::loadKraje(std::map<std::string, uzemnaJednotka*>* kraje) {
+inline void Loader::loadKraje(std::map<std::string, uzemnaJednotka*>* kraje, std::map<std::string, uzemnaJednotka*>* okresy) {
 	std::ifstream file;
 	std::string filename = "C:\\Users\\pukal\\source\\repos\\Semestralka-DataStructures\\kraje.csv";
 	file.open(filename, std::ios::in);
@@ -66,11 +66,21 @@ inline void Loader::loadKraje(std::map<std::string, uzemnaJednotka*>* kraje) {
 		uzemnaJednotka* uzemnJ = new uzemnaJednotka();
 		uzemnJ->setCode(code);
 		uzemnJ->setName(name);
-		std::cout << name << " " << code << "\n";
+		//std::cout << name << " " << code << "\n";
 
 		/*obce->insert(std::map<std::string, uzemnaJednotka*>::value_type(name, uzemnJ));*/
 		kraje->insert(std::pair < std::string, uzemnaJednotka*>(name, uzemnJ));
-		delete uzemnJ;
+
+		for (auto& item : *okresy) {
+			//if (item.second->getCode().substr(3,1).compare(code) == 0) { //substr ( odkial, kolko )
+			//	item.second->setParent(name);
+			//}
+
+		}
+
+
+
+		//delete uzemnJ;
 
 	}
 
@@ -78,7 +88,7 @@ inline void Loader::loadKraje(std::map<std::string, uzemnaJednotka*>* kraje) {
 
 }
 
-inline void Loader::loadOkresy(std::map<std::string, uzemnaJednotka*>* okresy) {
+inline void Loader::loadOkresy(std::map<std::string, uzemnaJednotka*>* okresy, std::map<std::string, uzemnaJednotka*>* obce) {
 
 	std::ifstream file;
 	std::string filename = "C:\\Users\\pukal\\source\\repos\\Semestralka-DataStructures\\okresy.csv";
@@ -112,7 +122,14 @@ inline void Loader::loadOkresy(std::map<std::string, uzemnaJednotka*>* okresy) {
 
 		/*obce->insert(std::map<std::string, uzemnaJednotka*>::value_type(name, uzemnJ));*/
 		okresy->insert(std::pair < std::string, uzemnaJednotka*>(name, uzemnJ));
-		delete uzemnJ;
+		for (auto& item : *obce) {
+			if (item.second->getCode().substr(0, 6) == code) {
+				item.second->setParent(name);
+			}
+		}
+
+
+		//delete uzemnJ;
 
 	}
 
@@ -155,7 +172,7 @@ inline void Loader::loadObce(std::map<std::string, uzemnaJednotka*>* obce) {
 
 		/*obce->insert(std::map<std::string, uzemnaJednotka*>::value_type(name, uzemnJ));*/
 		obce->insert(std::pair < std::string, uzemnaJednotka*>(name, uzemnJ));
-		delete uzemnJ;
+		//delete uzemnJ;
 
 	}
 

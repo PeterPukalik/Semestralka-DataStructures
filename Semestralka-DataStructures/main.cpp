@@ -30,8 +30,8 @@ int main() {
 
 
     loader->loadObce(obce);
-    loader->loadOkresy(okresy);
-    loader->loadKraje(kraje);
+    loader->loadOkresy(okresy,obce);
+    loader->loadKraje(kraje,okresy);
 
     bool end = false;
     int control = 0;
@@ -100,7 +100,8 @@ int main() {
 
                 for (const auto& elem : *temp)
                 {
-                    std::cout << elem.first << " " << elem.second << " " << "\n";
+                    std::cout << elem.second->getName() << " " << elem.second->getCode() << " " << elem.second->getParent() << "\n";
+                    //std::cout << elem.second->toString();
                 }
                 temp->clear();
                 filterNumber = 0;
@@ -149,7 +150,8 @@ int main() {
 
                 for (const auto& elem : *temp)
                 {
-                    std::cout << elem.first << " " << elem.second << " " << "\n";
+                    std::cout << elem.second->getName() << " " << elem.second->getCode() << " " << elem.second->getParent()<< "\n";
+                    //std::cout << elem.second->toString();
                 }
                 temp->clear();
                 filterNumber = 0;
@@ -178,8 +180,17 @@ int main() {
 
 
     delete loader;
+    for (auto& item : *obce) {
+        delete item.second;
+    }
     delete obce;
+    for (auto& item : *okresy) {
+        delete item.second;
+    }
     delete okresy;
+    for (auto& item : *kraje) {
+        delete item.second;
+    }
     delete kraje;
     delete temp;
     delete filter;
