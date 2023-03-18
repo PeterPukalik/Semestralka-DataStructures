@@ -19,9 +19,9 @@ public:
 
 
 
-	void loadKraje(std::map<std::string, uzemnaJednotka*>* kraje, std::map<std::string, uzemnaJednotka*>* okresy);
-	void loadOkresy(std::map<std::string, uzemnaJednotka*>* okresy, std::map<std::string, uzemnaJednotka*>* obce);
-	void loadObce(std::map<std::string, uzemnaJednotka*>* obce);
+	void loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<uzemnaJednotka*>* okresy);
+	void loadOkresy(std::vector<uzemnaJednotka*>* okresy, std::vector<uzemnaJednotka*>* obce);
+	void loadObce(std::vector<uzemnaJednotka*>* obce);
 	
 
 };
@@ -37,7 +37,7 @@ inline Loader::~Loader()
 {
 }
 
-inline void Loader::loadKraje(std::map<std::string, uzemnaJednotka*>* kraje, std::map<std::string, uzemnaJednotka*>* okresy) {
+inline void Loader::loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<uzemnaJednotka*>* okresy) {
 	std::ifstream file;
 	std::string filename = "C:\\Users\\pukal\\source\\repos\\Semestralka-DataStructures\\kraje.csv";
 	file.open(filename, std::ios::in);
@@ -69,11 +69,10 @@ inline void Loader::loadKraje(std::map<std::string, uzemnaJednotka*>* kraje, std
 		//std::cout << name << " " << code << "\n";
 
 		/*obce->insert(std::map<std::string, uzemnaJednotka*>::value_type(name, uzemnJ));*/
-		kraje->insert(std::pair < std::string, uzemnaJednotka*>(name, uzemnJ));
-
+		kraje->push_back(uzemnJ);
 		for (auto& item : *okresy) {
-			if (item.second->getCode().substr(3,1).compare(code) == 0) { //substr ( odkial, kolko )
-				item.second->setParent(name);
+			if (item->getCode().substr(3,1).compare(code) == 0) { //substr ( odkial, kolko )
+				item->setParent(name);
 			}
 
 		}
@@ -88,7 +87,7 @@ inline void Loader::loadKraje(std::map<std::string, uzemnaJednotka*>* kraje, std
 
 }
 
-inline void Loader::loadOkresy(std::map<std::string, uzemnaJednotka*>* okresy, std::map<std::string, uzemnaJednotka*>* obce) {
+inline void Loader::loadOkresy(std::vector<uzemnaJednotka*>* okresy, std::vector<uzemnaJednotka*>* obce) {
 
 	std::ifstream file;
 	std::string filename = "C:\\Users\\pukal\\source\\repos\\Semestralka-DataStructures\\okresy.csv";
@@ -121,10 +120,10 @@ inline void Loader::loadOkresy(std::map<std::string, uzemnaJednotka*>* okresy, s
 		//std::cout << name << " " << code << "\n";
 
 		/*obce->insert(std::map<std::string, uzemnaJednotka*>::value_type(name, uzemnJ));*/
-		okresy->insert(std::pair < std::string, uzemnaJednotka*>(name, uzemnJ));
+		okresy->push_back(uzemnJ);
 		for (auto& item : *obce) {
-			if (item.second->getCode().substr(0, 6) == code) {
-				item.second->setParent(name);
+			if (item->getCode().substr(0, 6) == code) {
+				item->setParent(name);
 			}
 		}
 
@@ -137,7 +136,7 @@ inline void Loader::loadOkresy(std::map<std::string, uzemnaJednotka*>* okresy, s
 
 }
 
-inline void Loader::loadObce(std::map<std::string, uzemnaJednotka*>* obce) {
+inline void Loader::loadObce(std::vector<uzemnaJednotka*>* obce) {
 
 
 	std::ifstream file;
@@ -171,7 +170,7 @@ inline void Loader::loadObce(std::map<std::string, uzemnaJednotka*>* obce) {
 		//std::cout << name << " " << code << "\n";
 
 		/*obce->insert(std::map<std::string, uzemnaJednotka*>::value_type(name, uzemnJ));*/
-		obce->insert(std::pair < std::string, uzemnaJednotka*>(name, uzemnJ));
+		obce->push_back(uzemnJ);
 		//delete uzemnJ;
 
 	}

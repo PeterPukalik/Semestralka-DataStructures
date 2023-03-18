@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <map>
+#include <vector>
 
 
 
@@ -23,10 +24,12 @@ int main() {
     Loader* loader = new Loader();
     Filter* filter = new Filter();
     
-
-    std::map<std::string, uzemnaJednotka*>* obce = new std::map<std::string,uzemnaJednotka*>();
-    std::map<std::string, uzemnaJednotka*>* okresy = new std::map<std::string,uzemnaJednotka*>();
-    std::map<std::string, uzemnaJednotka*>* kraje = new std::map<std::string,uzemnaJednotka*>();
+    std::vector<uzemnaJednotka*>* obce = new std::vector<uzemnaJednotka*>();
+    std::vector<uzemnaJednotka*>* okresy = new std::vector<uzemnaJednotka*>();
+    std::vector<uzemnaJednotka*>* kraje = new std::vector<uzemnaJednotka*>();
+    //std::map<std::string, uzemnaJednotka*>* obce = new std::map<std::string,uzemnaJednotka*>();
+    //std::map<std::string, uzemnaJednotka*>* okresy = new std::map<std::string,uzemnaJednotka*>();
+    //std::map<std::string, uzemnaJednotka*>* kraje = new std::map<std::string,uzemnaJednotka*>();
 
 
     loader->loadObce(obce);
@@ -36,7 +39,7 @@ int main() {
     bool end = false;
     int control = 0;
     int filterNumber = 0;
-    std::map<std::string, uzemnaJednotka*>* temp = new std::map<std::string, uzemnaJednotka*>();
+    std::vector<uzemnaJednotka*>* temp = new std::vector<uzemnaJednotka*>();
     std::string prefix = "";
 
 
@@ -54,13 +57,14 @@ int main() {
                 std::cin >> prefix;
                 filter->findNameWithProperty(temp, obce->begin(), obce->end(), [&prefix](const auto& entry)
                     {
-                        if (entry.first.length() < prefix.length()) {
+                        //if (entry..length() < prefix.length()) {
+                        if (entry->getName().length() < prefix.length()) {
                             return false;
                         }
 
                 // Check if the first prefix.length() characters of str match prefix
                 for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry.first[i] != prefix[i]) {
+                    if (entry->getName()[i] != prefix[i]) {
                         return false;
                     }
                 }
@@ -69,13 +73,13 @@ int main() {
                     });
                 filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
                     {
-                        if (entry.first.length() < prefix.length()) {
+                        if (entry->getName().length() < prefix.length()) {
                             return false;
                         }
 
                 // Check if the first prefix.length() characters of str match prefix
                 for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry.first[i] != prefix[i]) {
+                    if (entry->getName()[i] != prefix[i]) {
                         return false;
                     }
                 }
@@ -84,13 +88,13 @@ int main() {
                     });
                 filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), [&prefix](const auto& entry)
                     {
-                        if (entry.first.length() < prefix.length()) {
+                        if (entry->getName().length() < prefix.length()) {
                             return false;
                         }
 
                 // Check if the first prefix.length() characters of str match prefix
                 for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry.first[i] != prefix[i]) {
+                    if (entry->getName()[i] != prefix[i]) {
                         return false;
                     }
                 }
@@ -100,7 +104,8 @@ int main() {
 
                 for (const auto& elem : *temp)
                 {
-                    std::cout << elem.second->getName() << " | " << elem.second->getParent() << " | " << elem.second->getCode() << "\n";
+                    //std::cout << elem.second->getName() << " | " << elem.second->getParent() << " | " << elem.second->getCode() << "\n";
+                    std::cout << elem->getName() << " | " << elem->getParent() << " | " << elem->getCode() << "\n";
                     //std::cout << elem.second->toString();
                 }
                 temp->clear();
@@ -111,11 +116,11 @@ int main() {
                 std::cin >> prefix;
                 filter->findNameWithProperty(temp, obce->begin(), obce->end(), [&prefix](const auto& entry)
                     {
-                        if (entry.first.length() < prefix.length()) {
+                        if (entry->getName().length() < prefix.length()) {
                             return false;
                         }
 
-                        if (entry.first.find(prefix) != std::string::npos) {
+                        if (entry->getName().find(prefix) != std::string::npos) {
                             return true;
                         }
                         else {
@@ -124,10 +129,11 @@ int main() {
                     });
                 filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
                     {
-                        if (entry.first.length() < prefix.length()) {
+                        if (entry->getName().length() < prefix.length()) {
                             return false;
                         }
-                        if (entry.first.find(prefix) != std::string::npos) {
+
+                        if (entry->getName().find(prefix) != std::string::npos) {
                             return true;
                         }
                         else {
@@ -136,11 +142,11 @@ int main() {
                     });
                 filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), [&prefix](const auto& entry)
                     {
-                        if (entry.first.length() < prefix.length()) {
+                        if (entry->getName().length() < prefix.length()) {
                             return false;
                         }
 
-                        if (entry.first.find(prefix) != std::string::npos) {
+                        if (entry->getName().find(prefix) != std::string::npos) {
                             return true;
                         }
                         else {
@@ -150,8 +156,9 @@ int main() {
 
                 for (const auto& elem : *temp)
                 {
-                    std::cout << elem.second->getName() << " | " << elem.second->getParent() << " | " << elem.second->getCode() << "\n";
+                    //std::cout << elem.second->getName() << " | " << elem.second->getParent() << " | " << elem.second->getCode() << "\n";
                     //std::cout << elem.second->toString();
+                    std::cout << elem->getName() << " | " << elem->getParent() << " | " << elem->getCode() << "\n";
                 }
                 temp->clear();
                 filterNumber = 0;
@@ -181,15 +188,15 @@ int main() {
 
 
     for (auto& item : *obce) {
-        delete item.second;
+        delete item;
     }
     delete obce;
     for (auto& item : *okresy) {
-        delete item.second;
+        delete item;
     }
     delete okresy;
     for (auto& item : *kraje) {
-        delete item.second;
+        delete item;
     }
 
 
