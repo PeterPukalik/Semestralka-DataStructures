@@ -56,11 +56,15 @@ inline void Loader::loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<u
 	while (!file.eof()) {
 
 		std::getline(file, str, ';');
-		std::getline(file, code, ';');
+		std::getline(file, str, ';');
+
 		std::getline(file, name, ';');
 
+		std::getline(file, str, ';');
+		std::getline(file, str, ';');
 
-		std::getline(file, str);
+		std::getline(file, code);
+		//std::getline(file, str);
 
 
 		uzemnaJednotka* uzemnJ = new uzemnaJednotka();
@@ -71,7 +75,7 @@ inline void Loader::loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<u
 		/*obce->insert(std::map<std::string, uzemnaJednotka*>::value_type(name, uzemnJ));*/
 		kraje->push_back(uzemnJ);
 		for (auto& item : *okresy) {
-			if (item->getCode().substr(3,1).compare(code) == 0) { //substr ( odkial, kolko )
+			if (item->getCode().substr(0,5).compare(code.substr(5,9)) == 0) { //substr ( odkial, kolko )
 				item->setParent(name);
 			}
 

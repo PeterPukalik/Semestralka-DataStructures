@@ -1,7 +1,7 @@
 #include <iostream>
 #include <Windows.h>
-#include <map>
 #include <vector>
+#include <iomanip>
 
 
 
@@ -27,9 +27,7 @@ int main() {
     std::vector<uzemnaJednotka*>* obce = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* okresy = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* kraje = new std::vector<uzemnaJednotka*>();
-    //std::map<std::string, uzemnaJednotka*>* obce = new std::map<std::string,uzemnaJednotka*>();
-    //std::map<std::string, uzemnaJednotka*>* okresy = new std::map<std::string,uzemnaJednotka*>();
-    //std::map<std::string, uzemnaJednotka*>* kraje = new std::map<std::string,uzemnaJednotka*>();
+
 
 
     loader->loadObce(obce);
@@ -39,13 +37,14 @@ int main() {
     bool end = false;
     int control = 0;
     int filterNumber = 0;
+
     std::vector<uzemnaJednotka*>* temp = new std::vector<uzemnaJednotka*>();
     std::string prefix = "";
 
 
 
     while (!end) {
-        std::cout << "tvoje moznosti su:\n 1.filtrovat \n 2.end \n zadaj cislo pre pokracovanie \n ";
+        std::cout << "tvoje moznosti su:\n 1.filtrovat \n 0.end \n zadaj cislo pre pokracovanie \n ";
         std::cin >> control;
         switch (control) {
         case 1:
@@ -62,14 +61,14 @@ int main() {
                             return false;
                         }
 
-                // Check if the first prefix.length() characters of str match prefix
-                for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry->getName()[i] != prefix[i]) {
-                        return false;
-                    }
-                }
+                        // Check if the first prefix.length() characters of str match prefix
+                        for (size_t i = 0; i < prefix.length(); ++i) {
+                            if (entry->getName()[i] != prefix[i]) {
+                                return false;
+                            }
+                        }
 
-                return true;
+                        return true;
                     });
                 filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
                     {
@@ -77,36 +76,36 @@ int main() {
                             return false;
                         }
 
-                // Check if the first prefix.length() characters of str match prefix
-                for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry->getName()[i] != prefix[i]) {
-                        return false;
-                    }
-                }
+                        // Check if the first prefix.length() characters of str match prefix
+                        for (size_t i = 0; i < prefix.length(); ++i) {
+                            if (entry->getName()[i] != prefix[i]) {
+                                return false;
+                            }
+                        }
 
-                return true;
-                    });
+                        return true;
+                            });
                 filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), [&prefix](const auto& entry)
                     {
                         if (entry->getName().length() < prefix.length()) {
                             return false;
                         }
 
-                // Check if the first prefix.length() characters of str match prefix
-                for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry->getName()[i] != prefix[i]) {
-                        return false;
-                    }
-                }
+                        // Check if the first prefix.length() characters of str match prefix
+                        for (size_t i = 0; i < prefix.length(); ++i) {
+                            if (entry->getName()[i] != prefix[i]) {
+                                return false;
+                            }
+                        }
 
-                return true;
-                    });
+                        return true;
+                            });
 
                 for (const auto& elem : *temp)
                 {
-                    //std::cout << elem.second->getName() << " | " << elem.second->getParent() << " | " << elem.second->getCode() << "\n";
-                    std::cout << elem->getName() << " | " << elem->getParent() << " | " << elem->getCode() << "\n";
-                    //std::cout << elem.second->toString();
+                    std::cout << std::left << std::setw(30) << elem->getName() << " | "
+                        << std::setw(30) << elem->getParent() << " | "
+                        << std::setw(30) << elem->getCode() << "\n";
                 }
                 temp->clear();
                 filterNumber = 0;
@@ -153,12 +152,11 @@ int main() {
                             return false;
                         }
                     });
-
                 for (const auto& elem : *temp)
                 {
-                    //std::cout << elem.second->getName() << " | " << elem.second->getParent() << " | " << elem.second->getCode() << "\n";
-                    //std::cout << elem.second->toString();
-                    std::cout << elem->getName() << " | " << elem->getParent() << " | " << elem->getCode() << "\n";
+                    std::cout << std::left << std::setw(30) << elem->getName() << " | "
+                        << std::setw(30) << elem->getParent() << " | "
+                        << std::setw(30) << elem->getCode() << "\n";
                 }
                 temp->clear();
                 filterNumber = 0;
@@ -170,7 +168,7 @@ int main() {
                 break;
             }
             break;
-        case 2:
+        case 0:
             std::cout << "\n zvolil si end.";
             end = true;
 
