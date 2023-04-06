@@ -18,10 +18,10 @@ public:
 	~Loader();
 
 
-
-	void loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<uzemnaJednotka*>* okresy);
-	void loadOkresy(std::vector<uzemnaJednotka*>* okresy, std::vector<uzemnaJednotka*>* obce);
 	void loadObce(std::vector<uzemnaJednotka*>* obce);
+	void loadOkresy(std::vector<uzemnaJednotka*>* okresy, std::vector<uzemnaJednotka*>* obce);
+	void loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<uzemnaJednotka*>* okresy);	
+	void loadSlovensko(std::vector<uzemnaJednotka*>* slovensko, std::vector<uzemnaJednotka*>* kraje);
 	
 
 };
@@ -88,6 +88,29 @@ inline void Loader::loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<u
 	}
 
 	file.close();
+
+}
+
+inline void Loader::loadSlovensko(std::vector<uzemnaJednotka*>* slovensko, std::vector<uzemnaJednotka*>* kraje)
+{
+
+
+
+
+
+	uzemnaJednotka* uzemnJ = new uzemnaJednotka();
+	uzemnJ->setCode("SK");
+	uzemnJ->setName("Slovensko");
+	slovensko->push_back(uzemnJ);
+	for (auto& item : *kraje) {
+		if (item->getCode() != "ZZ-9-*****") {
+			item->setParent("Slovensko");
+		}
+		else {
+			item->setParent("Zahranicie");
+		}
+	
+	}
 
 }
 

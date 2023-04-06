@@ -27,12 +27,14 @@ int main() {
     std::vector<uzemnaJednotka*>* obce = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* okresy = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* kraje = new std::vector<uzemnaJednotka*>();
+    std::vector<uzemnaJednotka*>* slovensko = new std::vector<uzemnaJednotka*>();
 
 
 
     loader->loadObce(obce);
     loader->loadOkresy(okresy,obce);
     loader->loadKraje(kraje,okresy);
+    loader->loadSlovensko(slovensko, kraje);
 
     bool end = false;
     int control = 0;
@@ -73,7 +75,7 @@ int main() {
                 filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
                     {
                         if (entry->getName().length() < prefix.length()) {
-                            return false;
+                            return false;   
                         }
 
                         // Check if the first prefix.length() characters of str match prefix
@@ -195,7 +197,11 @@ int main() {
     delete okresy;
     for (auto& item : *kraje) {
         delete item;
+    }  
+    for (auto& item : *slovensko) {
+        delete item;
     }
+    delete slovensko;
 
 
     delete kraje;
