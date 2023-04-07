@@ -3,14 +3,22 @@
 #include <vector>
 #include <iomanip>
 
-
-
-
-
-#include "../libds/heap_monitor.h"
 #include "uzemnaJednotka.h"
 #include "loader.h"
 #include "filter.h"
+
+
+
+
+
+#include <libds/amt/hierarchy.h>
+#include <libds/amt/implicit_hierarchy.h>
+#include <libds/adt/tree.h>
+
+#include <libds/heap_monitor.h>
+#include <libds/constants.h>
+
+
 
 
 
@@ -23,11 +31,13 @@ int main() {
 
     Loader* loader = new Loader();
     Filter* filter = new Filter();
-    
+    ds::adt::Tree<uzemnaJednotka*>* hierarchy;
+
     std::vector<uzemnaJednotka*>* obce = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* okresy = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* kraje = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* slovensko = new std::vector<uzemnaJednotka*>();
+    
 
 
 

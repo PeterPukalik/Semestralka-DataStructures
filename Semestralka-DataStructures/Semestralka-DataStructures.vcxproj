@@ -19,29 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\abstract_data_type.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\array.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\list.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\priority_queue.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\queue.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\sorts.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\stack.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\table.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\adt\tree.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\abstract_memory_type.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\explicit_hierarchy.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\explicit_network.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\explicit_sequence.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\hierarchy.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\implicit_hierarchy.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\implicit_sequence.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\network.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\amt\sequence.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\constants.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\heap_monitor.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\mm\compact_memory_manager.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\mm\memory_manager.h" />
-    <ClInclude Include="..\..\AUS-VS2022\DataStructures\DataStructures\libds\mm\memory_omanip.h" />
     <ClInclude Include="filter.h" />
     <ClInclude Include="loader.h" />
     <ClInclude Include="uzemnaJednotka.h" />
@@ -140,6 +117,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\DataStructures\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
