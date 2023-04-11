@@ -8,8 +8,10 @@
 
 
 #include "uzemnaJednotka.h"
+#include <libds/amt/implicit_hierarchy.h>
 
-
+#include <libds/amt/explicit_hierarchy.h>
+#include <libds/adt/tree.h>
 
 
 class Loader {
@@ -22,7 +24,12 @@ public:
 	void loadOkresy(std::vector<uzemnaJednotka*>* okresy, std::vector<uzemnaJednotka*>* obce);
 	void loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<uzemnaJednotka*>* okresy);	
 	void loadSlovensko(std::vector<uzemnaJednotka*>* slovensko, std::vector<uzemnaJednotka*>* kraje);
-	
+
+
+	void loadObceH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy);
+	void loadOkresyH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy);
+	void loadKrajeH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy);
+	void loadSlovenskoH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy);
 
 };
 
@@ -39,7 +46,7 @@ inline Loader::~Loader()
 
 inline void Loader::loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<uzemnaJednotka*>* okresy) {
 	std::ifstream file;
-	std::string filename = "C:\\Users\\pukal\\source\\repos\\Semestralka-DataStructures\\kraje.csv";
+	std::string filename = "C:\\Users\\pukal\\source\\repos\\AUS-VS2022\\Semestralka-DataStructures\\kraje.csv";
 	file.open(filename, std::ios::in);
 	if (!file.is_open())
 	{
@@ -95,9 +102,6 @@ inline void Loader::loadSlovensko(std::vector<uzemnaJednotka*>* slovensko, std::
 {
 
 
-
-
-
 	uzemnaJednotka* uzemnJ = new uzemnaJednotka();
 	uzemnJ->setCode("SK");
 	uzemnJ->setName("Slovensko");
@@ -114,10 +118,34 @@ inline void Loader::loadSlovensko(std::vector<uzemnaJednotka*>* slovensko, std::
 
 }
 
+inline void Loader::loadObceH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy)
+{
+
+}
+
+inline void Loader::loadOkresyH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy)
+{
+}
+
+inline void Loader::loadKrajeH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy)
+{
+}
+
+inline void Loader::loadSlovenskoH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy)
+{
+	ds::amt::MemoryBlock< uzemnaJednotka*>* block = new ds::amt::MemoryBlock< uzemnaJednotka*>();
+	uzemnaJednotka* uzemnJ = new uzemnaJednotka();
+	uzemnJ->setCode("SK");
+	uzemnJ->setName("Slovensko");
+	block->data_ = uzemnJ;
+	hierarchy->changeRoot(uzemnJ);
+
+}
+
 inline void Loader::loadOkresy(std::vector<uzemnaJednotka*>* okresy, std::vector<uzemnaJednotka*>* obce) {
 
 	std::ifstream file;
-	std::string filename = "C:\\Users\\pukal\\source\\repos\\Semestralka-DataStructures\\okresy.csv";
+	std::string filename = "C:\\Users\\pukal\\source\\repos\\AUS-VS2022\\Semestralka-DataStructures\\okresy.csv";
 	file.open(filename, std::ios::in);
 	if (!file.is_open())
 	{
@@ -167,7 +195,7 @@ inline void Loader::loadObce(std::vector<uzemnaJednotka*>* obce) {
 
 
 	std::ifstream file;
-	std::string filename = "C:\\Users\\pukal\\source\\repos\\Semestralka-DataStructures\\obce.csv";
+	std::string filename = "C:\\Users\\pukal\\source\\repos\\AUS-VS2022\\Semestralka-DataStructures\\obce.csv";
 	file.open(filename,std::ios::in);
 	if (!file.is_open())
 	{

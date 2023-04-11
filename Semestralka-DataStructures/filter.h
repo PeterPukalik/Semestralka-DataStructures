@@ -15,7 +15,7 @@ public:
 
 	template<typename Iterator>
 	//std::map<std::string, uzemnaJednotka*>* findNameWithProperty(std::map<std::string, uzemnaJednotka*>* predicate,Iterator begin, Iterator end,Function func) const;
-	void findNameWithProperty(std::vector<uzemnaJednotka*>* predicate,Iterator begin, Iterator end, std::function<bool(uzemnaJednotka*)> func ) const;
+	void findNameWithProperty(std::vector<uzemnaJednotka*>* data,Iterator begin, Iterator end, std::function<bool(uzemnaJednotka*)> predicate ) const;
 
 
 };

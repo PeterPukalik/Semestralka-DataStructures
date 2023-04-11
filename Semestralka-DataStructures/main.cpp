@@ -1,5 +1,5 @@
 #include <iostream>
-#include <Windows.h>
+
 #include <vector>
 #include <iomanip>
 
@@ -9,17 +9,39 @@
 
 
 
+//  #include <libds/adt/abstract_data_type.h>
+//#include <libds/adt/array.h>
+//#include <libds/adt/list.h>
+//#include <libds/adt/priority_queue.h>
+//#include <libds/adt/queue.h>
+//#include <libds/adt/sorts.h>
+//#include <libds/adt/stack.h>
+//#include <libds/adt/table.h>
 
 
-#include <libds/amt/hierarchy.h>
+//#include <libds/amt/abstract_memory_type.h>
+//#include <libds/amt/explicit_hierarchy.h>
+//#include <libds/amt/explicit_network.h>
+//#include <libds/amt/explicit_sequence.h>
+//#include <libds/amt/hierarchy.h>
 #include <libds/amt/implicit_hierarchy.h>
-#include <libds/adt/tree.h>
+//#include <libds/amt/implicit_sequence.h>
+//#include <libds/amt/network.h>
+//#include <libds/amt/sequence.h>
 
-#include <libds/heap_monitor.h>
+//#include <libds/mm/compact_memory_manager.h>
+//#include <libds/mm/memory_manager.h>
+//#include <libds/mm/memory_omanip.h>
+
 #include <libds/constants.h>
 
 
 
+#include <libds/heap_monitor.h>
+
+#include <libds/adt/tree.h>
+
+#include <Windows.h>
 
 
 int main() {
@@ -31,15 +53,15 @@ int main() {
 
     Loader* loader = new Loader();
     Filter* filter = new Filter();
-    ds::adt::Tree<uzemnaJednotka*>* hierarchy;
+
 
     std::vector<uzemnaJednotka*>* obce = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* okresy = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* kraje = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* slovensko = new std::vector<uzemnaJednotka*>();
     
-
-
+  
+    ds::adt::MultiwayTree<uzemnaJednotka*>* hierarchy = new ds::adt::MultiwayTree<uzemnaJednotka*>();
 
     loader->loadObce(obce);
     loader->loadOkresy(okresy,obce);
@@ -212,7 +234,7 @@ int main() {
         delete item;
     }
     delete slovensko;
-
+    
 
     delete kraje;
     delete temp;
