@@ -59,14 +59,36 @@ int main() {
     std::vector<uzemnaJednotka*>* okresy = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* kraje = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* slovensko = new std::vector<uzemnaJednotka*>();
-    
-  
-    ds::adt::MultiwayTree<uzemnaJednotka*>* hierarchy = new ds::adt::MultiwayTree<uzemnaJednotka*>();
+
+
+    ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy = new ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>();
+
 
     loader->loadObce(obce);
-    loader->loadOkresy(okresy,obce);
-    loader->loadKraje(kraje,okresy);
+    loader->loadOkresy(okresy, obce);
+    loader->loadKraje(kraje, okresy);
     loader->loadSlovensko(slovensko, kraje);
+
+    loader->loadSlovenskoH(hierarchy, slovensko);
+
+    std::cout << hierarchy->size() << std::endl;
+    loader->loadKrajeH(hierarchy, kraje);
+
+    std::cout << hierarchy->size() << std::endl;
+    loader->loadOkresyH(hierarchy, okresy);
+
+    std::cout << hierarchy->size() << std::endl;
+    //loader->loadObceH(hierarchy, obce);
+    for(auto item : *hierarchy)
+{
+    std::cout << item->getName() << std::endl;
+}
+//hierarchy->processLevelOrder(hierarchy->accessRoot(), [](ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) { std::cout << entry->data_->getName() << std::endl; });
+//hierarchy->processPreOrder(hierarchy->accessRoot(), [](const ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) {
+//    std::cout << entry->data_->getName() << std::endl; // Modify the lambda function to match the expected signature
+//    });
+
+    std::cout << hierarchy->size() << std::endl;
 
     bool end = false;
     int control = 0;
@@ -234,8 +256,8 @@ int main() {
         delete item;
     }
     delete slovensko;
-    
 
+    delete hierarchy;
     delete kraje;
     delete temp;
     delete filter;
