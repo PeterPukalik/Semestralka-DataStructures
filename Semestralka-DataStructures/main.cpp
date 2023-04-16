@@ -229,7 +229,7 @@ int main() {
             size_t inputOrder;
             while (!stop) {
                 std::cout << "aktualne si " << node->data_->getName() << std::endl << std::endl;
-                std::cout << "mozes sa pohybovat hore a dole , 1-hore,2-dole,3-doprava,4-dolava \n alebo pre ukoncenie prehladavanie hierarchie - 5\n pre filtrovanie v hierarchi funkciou containsStr 6\n pre filtrovanie v hierarchii funkciou startsWithStr 7 \n";
+                std::cout << "mozes sa pohybovat hore a dole , 1-hore,2-dole,3-doprava,4-dolava \n alebo pre ukoncenie prehladavanie hierarchie - 5\n pre filtrovanie v hierarchi funkciou containsStr 6\n pre filtrovanie v hierarchii funkciou startsWithStr 7 \n 8 pre vypisanie aktualnej urovne\n";
                 std::cin >> filterNumber;
                 switch (filterNumber) {
                 case 1:
@@ -295,6 +295,9 @@ int main() {
                             if (entry->data_->getName() == node->data_->getName()) {
                                 return false;
                             }
+                    if (entry->data_->getParent() != node->data_->getName()) {
+                        return false;
+                    }
                     if (entry->data_->getName().length() < prefix.length()) {
                         return false;
                     }
@@ -316,6 +319,10 @@ int main() {
                             if (entry->data_->getName() == node->data_->getName()) {
                                 return false;
                             }
+                    if ((entry->data_->getParent() != node->data_->getName() )  ) {
+                        return false;
+                    }
+
                     //if (entry..length() < prefix.length()) {
                     if (entry->data_->getName().length() < prefix.length()) {
                         return false;
@@ -331,6 +338,15 @@ int main() {
                     return true;
                         });
 
+                    break;
+                case 8:
+                    hierarchy->processPreOrder(node, [&node](const auto& entry)
+                        {
+                            if ((entry->data_->getParent() != node->data_->getName())) {
+                                return false;
+                            }
+                            std::cout << entry->data_->getName() << std::endl;
+                        });
                     break;
                 default:
                     // Handle invalid input
