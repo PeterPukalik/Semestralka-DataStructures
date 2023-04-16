@@ -91,14 +91,16 @@ int main() {
     bool end = false;
     int control = 0;
     int filterNumber = 0;
+    bool stop = false;
+
 
     std::vector<uzemnaJednotka*>* temp = new std::vector<uzemnaJednotka*>();
     std::string prefix = "";
-
-
+    auto node = hierarchy->accessRoot();
+    auto tempNode = node->parent_;
 
     while (!end) {
-        std::cout << "tvoje moznosti su:\n 1.filtrovat \n 0.end \n zadaj cislo pre pokracovanie \n ";
+        std::cout << "tvoje moznosti su:\n 1.filtrovat\n 2.hierarchia \n 0.end \n zadaj cislo pre pokracovanie \n ";
         std::cin >> control;
         switch (control) {
         case 1:
@@ -222,6 +224,63 @@ int main() {
                 break;
             }
             break;
+
+            case 2:
+
+         std::cout << "zvolil si cestovanie v hierarchii \n";
+        
+         while (!stop) {
+             std::cout << "aktualne si " << node->data_->getName() << std::endl << std::endl;
+             std::cout << "mozes sa pohybovat hore a dole , 1-hore,2-dole,3-doprava,4-dolava \n alebo pre ukoncenie prehladavanie hierarchie - 5\n";
+             std::cin >> filterNumber;
+             switch (filterNumber) {
+             case 1:
+                 tempNode = node->parent_;
+                 if (node->parent_ != nullptr) {
+                     node = hierarchy->accessParent(*node);
+                     std::cout << "Moved up to " << node->data_->getName() << std::endl;
+                 }
+                 else {
+                     std::cout << "You are in root \n";
+                 }
+                 break;
+             case 2:
+                 if (node->sons_ != nullptr) {
+                     auto item = node->sons_->accessFirst();
+                     size_t index = 0;
+                     while (node->sons_->accessNext(*item)) {
+                         std::cout << index << " "<< item->data_->data_->getName() << std::endl;
+                         item = node->sons_->accessNext(*item);
+                         index++;
+                     }
+                     // Prompt the user to select a specific child node
+                     std::cout << "Select a child node: \n";
+                     size_t inputOrder;
+                     std::cin >> inputOrder;
+                     node = hierarchy->accessSon(*node, inputOrder);
+                     // Implement logic to select a child node and update node accordingly
+                 }
+                 else {
+                     std::cout << "No child nodes available \n";
+                 }
+                 break;
+             case 3:
+                 // Implement logic for right traversal
+                 break;
+             case 4:
+                 // Implement logic for left traversal
+                 break;
+             case 5:
+                 stop = true;
+                 break;
+             default:
+                 // Handle invalid input
+                 std::cout << "Invalid input \n";
+                 break;
+             }
+         }
+         break;
+
         case 0:
             std::cout << "\n zvolil si end.";
             end = true;
