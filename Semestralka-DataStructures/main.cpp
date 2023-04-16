@@ -76,19 +76,17 @@ int main() {
 
     std::cout << hierarchy->size() << std::endl;
     loader->loadOkresyH(hierarchy, okresy);
-
     std::cout << hierarchy->size() << std::endl;
-    //loader->loadObceH(hierarchy, obce);
-    for(auto item : *hierarchy)
-{
-    std::cout << item->getName() << std::endl;
-}
+    loader->loadObceH(hierarchy, obce);
+    
+    std::cout << hierarchy->size() << std::endl;
+
 //hierarchy->processLevelOrder(hierarchy->accessRoot(), [](ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) { std::cout << entry->data_->getName() << std::endl; });
 //hierarchy->processPreOrder(hierarchy->accessRoot(), [](const ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) {
 //    std::cout << entry->data_->getName() << std::endl; // Modify the lambda function to match the expected signature
 //    });
 
-    std::cout << hierarchy->size() << std::endl;
+    
 
     bool end = false;
     int control = 0;

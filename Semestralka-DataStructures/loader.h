@@ -89,7 +89,9 @@ inline void Loader::loadKraje(std::vector<uzemnaJednotka*>* kraje, std::vector<u
 			if (item->getCode().substr(0,5).compare(code.substr(5,9)) == 0) { //substr ( odkial, kolko )
 				item->setParent(name);
 			}
-
+			if (item->getCode() == "SKZZZZ" || item->getCode() == "SKZZZ") {
+				item->setParent("Zahranièie");
+			}
 
 		}
 
@@ -116,7 +118,7 @@ inline void Loader::loadSlovensko(std::vector<uzemnaJednotka*>* slovensko, std::
 			item->setParent("Slovensko");
 		}
 		else {
-			item->setParent("Zahranicie");
+			item->setParent("Zahranièie");
 		}
 	
 	}
@@ -137,9 +139,10 @@ inline void Loader::loadObceH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*
 	auto okresNode = hierarchy->accessSon(*krajNode, okresIndex);
 
 	for (auto obec : *obce) {
-		std::cout << okresNode->data_->getName() << " " << obec->getName() << "\n";
+		
 		if (okresNode->data_->getName() != obec->getParent()) {
 			++okresIndex;
+			index = 0;
 			//if (hierarchy->accessSon(*krajNode, okresIndex)->sons_->indexOfNext(okresIndex) == std::numeric_limits<size_t>::max()) {  // Access parent's sons
 			if (hierarchy->accessSon(*krajNode, okresIndex)==nullptr) {  // Access parent's sons
 				++krajIndex;
@@ -153,7 +156,8 @@ inline void Loader::loadObceH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*
 			}
 			okresNode = hierarchy->accessSon(*krajNode, okresIndex);
 		}
-		if (okresNode != nullptr && okresNode->data_->getParent() == obec->getParent()) {
+		//std::cout << okresNode->data_->getName() << " " << obec->getName() << "-" << obec->getParent() << "\n";
+		if (okresNode != nullptr && okresNode->data_->getName() == obec->getParent()) {
 			hierarchy->emplaceSon(*okresNode, index);
 			hierarchy->accessSon(*okresNode, index)->data_ = obce->at(indexSave);
 			++index;
@@ -208,9 +212,7 @@ inline void Loader::loadOkresyH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotk
 				index++;
 				indexSave++;
 			}
-			if (indexSave == 80) {
-				break;
-			}
+
 		}
 
 
