@@ -71,22 +71,22 @@ int main() {
 
     loader->loadSlovenskoH(hierarchy, slovensko);
 
-    std::cout << hierarchy->size() << std::endl;
+    //std::cout << hierarchy->size() << std::endl;
     loader->loadKrajeH(hierarchy, kraje);
 
-    std::cout << hierarchy->size() << std::endl;
+    //std::cout << hierarchy->size() << std::endl;
     loader->loadOkresyH(hierarchy, okresy);
-    std::cout << hierarchy->size() << std::endl;
+    //std::cout << hierarchy->size() << std::endl;
     loader->loadObceH(hierarchy, obce);
-    
-    std::cout << hierarchy->size() << std::endl;
 
-//hierarchy->processLevelOrder(hierarchy->accessRoot(), [](ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) { std::cout << entry->data_->getName() << std::endl; });
-//hierarchy->processPreOrder(hierarchy->accessRoot(), [](const ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) {
-//    std::cout << entry->data_->getName() << std::endl; // Modify the lambda function to match the expected signature
-//    });
+    //std::cout << hierarchy->size() << std::endl;
 
-    
+ //hierarchy->processLevelOrder(hierarchy->accessRoot(), [](ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) { std::cout << entry->data_->getName() << std::endl; });
+ //hierarchy->processPreOrder(hierarchy->accessRoot(), [](const ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) {
+ //    std::cout << entry->data_->getName() << std::endl; // Modify the lambda function to match the expected signature
+ //    });
+
+
 
     bool end = false;
     int control = 0;
@@ -117,45 +117,45 @@ int main() {
                             return false;
                         }
 
-                        // Check if the first prefix.length() characters of str match prefix
-                        for (size_t i = 0; i < prefix.length(); ++i) {
-                            if (entry->getName()[i] != prefix[i]) {
-                                return false;
-                            }
-                        }
+                // Check if the first prefix.length() characters of str match prefix
+                for (size_t i = 0; i < prefix.length(); ++i) {
+                    if (entry->getName()[i] != prefix[i]) {
+                        return false;
+                    }
+                }
 
-                        return true;
+                return true;
                     });
                 filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
                     {
                         if (entry->getName().length() < prefix.length()) {
-                            return false;   
+                            return false;
                         }
 
-                        // Check if the first prefix.length() characters of str match prefix
-                        for (size_t i = 0; i < prefix.length(); ++i) {
-                            if (entry->getName()[i] != prefix[i]) {
-                                return false;
-                            }
-                        }
+                // Check if the first prefix.length() characters of str match prefix
+                for (size_t i = 0; i < prefix.length(); ++i) {
+                    if (entry->getName()[i] != prefix[i]) {
+                        return false;
+                    }
+                }
 
-                        return true;
-                            });
+                return true;
+                    });
                 filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), [&prefix](const auto& entry)
                     {
                         if (entry->getName().length() < prefix.length()) {
                             return false;
                         }
 
-                        // Check if the first prefix.length() characters of str match prefix
-                        for (size_t i = 0; i < prefix.length(); ++i) {
-                            if (entry->getName()[i] != prefix[i]) {
-                                return false;
-                            }
-                        }
+                // Check if the first prefix.length() characters of str match prefix
+                for (size_t i = 0; i < prefix.length(); ++i) {
+                    if (entry->getName()[i] != prefix[i]) {
+                        return false;
+                    }
+                }
 
-                        return true;
-                            });
+                return true;
+                    });
 
                 for (const auto& elem : *temp)
                 {
@@ -175,12 +175,12 @@ int main() {
                             return false;
                         }
 
-                        if (entry->getName().find(prefix) != std::string::npos) {
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
+                if (entry->getName().find(prefix) != std::string::npos) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
                     });
                 filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
                     {
@@ -188,12 +188,12 @@ int main() {
                             return false;
                         }
 
-                        if (entry->getName().find(prefix) != std::string::npos) {
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
+                if (entry->getName().find(prefix) != std::string::npos) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
                     });
                 filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), [&prefix](const auto& entry)
                     {
@@ -201,12 +201,12 @@ int main() {
                             return false;
                         }
 
-                        if (entry->getName().find(prefix) != std::string::npos) {
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
+                if (entry->getName().find(prefix) != std::string::npos) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
                     });
                 for (const auto& elem : *temp)
                 {
@@ -224,67 +224,124 @@ int main() {
                 break;
             }
             break;
+        case 2:
+            std::cout << "zvolil si cestovanie v hierarchii \n";
+            size_t inputOrder;
+            while (!stop) {
+                std::cout << "aktualne si " << node->data_->getName() << std::endl << std::endl;
+                std::cout << "mozes sa pohybovat hore a dole , 1-hore,2-dole,3-doprava,4-dolava \n alebo pre ukoncenie prehladavanie hierarchie - 5\n pre filtrovanie v hierarchi funkciou containsStr 6\n pre filtrovanie v hierarchii funkciou startsWithStr 7 \n";
+                std::cin >> filterNumber;
+                switch (filterNumber) {
+                case 1:
+                    tempNode = node->parent_;
+                    if (node->parent_ != nullptr) {
+                        node = hierarchy->accessParent(*node);
+                        std::cout << "Moved up to " << node->data_->getName() << std::endl;
+                    }
+                    else {
+                        std::cout << "You are in root \n";
+                    }
+                    break;
+                case 2:
+                    if (node->sons_ != nullptr) {
+                        auto item = node->sons_->accessFirst();
+                        size_t index = 0;
+                        while (node->sons_->accessNext(*item)) {
+                            std::cout << index << " " << item->data_->data_->getName() << std::endl;
+                            item = node->sons_->accessNext(*item);
+                            index++;
+                        }
+                        // Prompt the user to select a specific child node
+                        std::cout << "Select a child node: \n";
 
-            case 2:
+                        std::cin >> inputOrder;
+                        //pridate overenie
+                        node = hierarchy->accessSon(*node, inputOrder);
+                        // Implement logic to select a child node and update node accordingly
+                    }
+                    else {
+                        std::cout << "No child nodes available \n";
+                    }
+                    break;
+                case 3:
+                    if (node->parent_ != nullptr && (hierarchy->accessParent(*node)->sons_->access(inputOrder + 1)) != nullptr) {
+                        node = (hierarchy->accessParent(*node)->sons_->access(inputOrder + 1))->data_; // Update node to the next right node
+                        inputOrder++;
+                    }
+                    else {
+                        std::cout << "No right nodes available.\n";
+                    }
+                    break;
 
-         std::cout << "zvolil si cestovanie v hierarchii \n";
-        
-         while (!stop) {
-             std::cout << "aktualne si " << node->data_->getName() << std::endl << std::endl;
-             std::cout << "mozes sa pohybovat hore a dole , 1-hore,2-dole,3-doprava,4-dolava \n alebo pre ukoncenie prehladavanie hierarchie - 5\n";
-             std::cin >> filterNumber;
-             switch (filterNumber) {
-             case 1:
-                 tempNode = node->parent_;
-                 if (node->parent_ != nullptr) {
-                     node = hierarchy->accessParent(*node);
-                     std::cout << "Moved up to " << node->data_->getName() << std::endl;
-                 }
-                 else {
-                     std::cout << "You are in root \n";
-                 }
-                 break;
-             case 2:
-                 if (node->sons_ != nullptr) {
-                     auto item = node->sons_->accessFirst();
-                     size_t index = 0;
-                     while (node->sons_->accessNext(*item)) {
-                         std::cout << index << " "<< item->data_->data_->getName() << std::endl;
-                         item = node->sons_->accessNext(*item);
-                         index++;
-                     }
-                     // Prompt the user to select a specific child node
-                     std::cout << "Select a child node: \n";
-                     size_t inputOrder;
-                     std::cin >> inputOrder;
-                     node = hierarchy->accessSon(*node, inputOrder);
-                     // Implement logic to select a child node and update node accordingly
-                 }
-                 else {
-                     std::cout << "No child nodes available \n";
-                 }
-                 break;
-             case 3:
-                 // Implement logic for right traversal
-                 break;
-             case 4:
-                 // Implement logic for left traversal
-                 break;
-             case 5:
-                 stop = true;
-                 break;
-             default:
-                 // Handle invalid input
-                 std::cout << "Invalid input \n";
-                 break;
-             }
-         }
-         break;
 
+
+                case 4:
+                    if (node->parent_ != nullptr && (hierarchy->accessParent(*node)->sons_->access(inputOrder - 1)) != nullptr) {
+                        node = (hierarchy->accessParent(*node)->sons_->access(inputOrder - 1))->data_; // Update node to the next right node
+                        inputOrder--;
+                    }
+                    else {
+                        std::cout << "No left nodes available.\n";
+                    }
+                    break;
+                case 5:
+                    stop = true;
+                    break;
+                case 6://contains
+                    std::cout << "zadaj slovo ktore ma obsahovat \n";
+                    std::cin >> prefix;
+                    hierarchy->processPreOrder(node, [&prefix, &node](const auto& entry)
+                        {
+                            if (entry->data_->getName() == node->data_->getName()) {
+                                return false;
+                            }
+                    if (entry->data_->getName().length() < prefix.length()) {
+                        return false;
+                    }
+
+                    if (entry->data_->getName().find(prefix) != std::string::npos) {
+                        std::cout << entry->data_->getName() << std::endl;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                        });
+                    break;
+                case 7://start
+                    std::cout << "zadaj slovo na ktore ma zacinat \n";
+                    std::cin >> prefix;
+                    hierarchy->processPreOrder(node, [&prefix, &node](const auto& entry)
+                        {
+                            if (entry->data_->getName() == node->data_->getName()) {
+                                return false;
+                            }
+                    //if (entry..length() < prefix.length()) {
+                    if (entry->data_->getName().length() < prefix.length()) {
+                        return false;
+                    }
+
+                    // Check if the first prefix.length() characters of str match prefix
+                    for (size_t i = 0; i < prefix.length(); ++i) {
+                        if (entry->data_->getName()[i] != prefix[i]) {
+                            return false;
+                        }
+                    }
+                    std::cout << entry->data_->getName() << std::endl;
+                    return true;
+                        });
+
+                    break;
+                default:
+                    // Handle invalid input
+                    std::cout << "Invalid input \n";
+                    break;
+                }
+            }
+            break;
         case 0:
             std::cout << "\n zvolil si end.";
             end = true;
-
             break;
         default:
             std::cout << "invalid input \n";
@@ -292,7 +349,7 @@ int main() {
             break;
         }
 
-    
+
     }
 
 
@@ -308,7 +365,7 @@ int main() {
     delete okresy;
     for (auto& item : *kraje) {
         delete item;
-    }  
+    }
     for (auto& item : *slovensko) {
         delete item;
     }

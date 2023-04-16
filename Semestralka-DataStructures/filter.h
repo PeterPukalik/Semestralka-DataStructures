@@ -40,3 +40,4 @@ inline void Filter::findNameWithProperty(std::vector<uzemnaJednotka*>* data, Ite
         }
     }
 }
+
