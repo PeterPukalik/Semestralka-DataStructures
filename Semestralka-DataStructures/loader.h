@@ -9,6 +9,7 @@
 
 #include "uzemnaJednotka.h"
 #include <libds/amt/implicit_hierarchy.h>
+#include <libds/adt/table.h>
 
 
 #include <libds/amt/explicit_hierarchy.h>
@@ -34,6 +35,11 @@ public:
 	void loadOkresyH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy, std::vector<uzemnaJednotka*>* okresy);
 	void loadKrajeH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy, std::vector<uzemnaJednotka*>* kraje);
 	void loadSlovenskoH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy, std::vector<uzemnaJednotka*>* slovensko);
+
+	void loadObceT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* obce);
+	void loadOkresyT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* okresy);
+	void loadKrajeT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* kraje);
+	void loadSlovenskoT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* slovensko);
 
 };
 
@@ -246,6 +252,35 @@ inline void Loader::loadSlovenskoH(ds::amt::MultiWayExplicitHierarchy<uzemnaJedn
 	hierarchy->emplaceRoot();
 	hierarchy->accessRoot()->data_ = slovensko->at(0);
 
+}
+
+inline void Loader::loadObceT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* obce)
+{
+	for (auto item : *obce) {
+		table->insert(item->getName(), item);
+	}
+}
+
+inline void Loader::loadOkresyT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* okresy)
+{
+	for (auto item : *okresy) {
+		table->insert(item->getName(), item);
+	}
+}
+
+inline void Loader::loadKrajeT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* kraje)
+{
+	for (auto item : *kraje) {
+		table->insert(item->getName(), item);
+
+	}
+}
+
+inline void Loader::loadSlovenskoT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* slovensko)
+{
+	for (auto item : *slovensko) {
+		table->insert(item->getName(), item);
+	}
 }
 
 inline void Loader::loadOkresy(std::vector<uzemnaJednotka*>* okresy, std::vector<uzemnaJednotka*>* obce) {

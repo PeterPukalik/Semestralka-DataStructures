@@ -16,7 +16,7 @@
 //#include <libds/adt/queue.h>
 //#include <libds/adt/sorts.h>
 //#include <libds/adt/stack.h>
-//#include <libds/adt/table.h>
+#include <libds/adt/table.h>
 
 
 //#include <libds/amt/abstract_memory_type.h>
@@ -64,28 +64,34 @@ int main() {
     ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy = new ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>();
 
 
+    ds::adt::Treap<std::string, uzemnaJednotka*>* tableObce = new ds::adt::Treap<std::string, uzemnaJednotka*>();
+    ds::adt::Treap<std::string, uzemnaJednotka*>* tableOkresy = new ds::adt::Treap<std::string, uzemnaJednotka*>();
+    ds::adt::Treap<std::string, uzemnaJednotka*>* tableKraje = new ds::adt::Treap<std::string, uzemnaJednotka*>();
+    ds::adt::Treap<std::string, uzemnaJednotka*>* tableSlovensko = new ds::adt::Treap<std::string, uzemnaJednotka*>();
+
     loader->loadObce(obce);
     loader->loadOkresy(okresy, obce);
     loader->loadKraje(kraje, okresy);
     loader->loadSlovensko(slovensko, kraje);
 
-    loader->loadSlovenskoH(hierarchy, slovensko);
 
+    loader->loadSlovenskoH(hierarchy, slovensko);
     //std::cout << hierarchy->size() << std::endl;
     loader->loadKrajeH(hierarchy, kraje);
-
     //std::cout << hierarchy->size() << std::endl;
     loader->loadOkresyH(hierarchy, okresy);
     //std::cout << hierarchy->size() << std::endl;
     loader->loadObceH(hierarchy, obce);
-
     //std::cout << hierarchy->size() << std::endl;
-
  //hierarchy->processLevelOrder(hierarchy->accessRoot(), [](ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) { std::cout << entry->data_->getName() << std::endl; });
  //hierarchy->processPreOrder(hierarchy->accessRoot(), [](const ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>* entry) {
  //    std::cout << entry->data_->getName() << std::endl; // Modify the lambda function to match the expected signature
  //    });
-
+    loader->loadObceT(tableObce, obce);
+    loader->loadOkresyT(tableOkresy, okresy);
+    loader->loadKrajeT(tableKraje, kraje);
+    loader->loadSlovenskoT(tableSlovensko, slovensko);
+    
 
 
     bool end = false;
@@ -100,7 +106,7 @@ int main() {
     auto tempNode = node->parent_;
 
     while (!end) {
-        std::cout << "tvoje moznosti su:\n 1.filtrovat\n 2.hierarchia \n 0.end \n zadaj cislo pre pokracovanie \n ";
+        std::cout << "tvoje moznosti su:\n 1.filtrovat\n 2.hierarchia\n 3. table \n 0.end \n zadaj cislo pre pokracovanie \n ";
         std::cin >> control;
         switch (control) {
         case 1:
@@ -355,6 +361,130 @@ int main() {
                 }
             }
             break;
+        case 3:
+            std::cout << "zvolil si filtrovanie v tabulke \n mas moznost: \n 1. pre filtrovanie startwithStr \n 2. pre filtrovanie containsStr \n";
+            std::cin >> filterNumber;
+            switch (filterNumber) {
+            case 1:
+                std::cout << "zadaj slovo na ktore ma zacinat \n";
+                std::cin >> prefix;
+                filter->findNameWithPropertyT(temp, tableObce->begin(), tableObce->end(), [&](const auto& entry)
+                    {
+                        //if (entry..length() < prefix.length()) {
+                        if (entry->getName().length() < prefix.length()) {
+                            return false;
+                        }
+
+
+                // Check if the first prefix.length() characters of str match prefix
+                for (size_t i = 0; i < prefix.length(); ++i) {
+                    if (entry->getName()[i] != prefix[i]) {
+                        return false;
+                    }
+                }
+
+                return true;
+                    });
+                filter->findNameWithPropertyT(temp, tableOkresy->begin(), tableOkresy->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry->getName().length() < prefix.length()) {
+                            return false;
+                        }
+
+                // Check if the first prefix.length() characters of str match prefix
+                for (size_t i = 0; i < prefix.length(); ++i) {
+                    if (entry->getName()[i] != prefix[i]) {
+                        return false;
+                    }
+                }
+
+                return true;
+                    });
+                filter->findNameWithPropertyT(temp, tableKraje->begin(), tableKraje->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry->getName().length() < prefix.length()) {
+                            return false;
+                        }
+
+                // Check if the first prefix.length() characters of str match prefix
+                for (size_t i = 0; i < prefix.length(); ++i) {
+                    if (entry->getName()[i] != prefix[i]) {
+                        return false;
+                    }
+                }
+
+                return true;
+                    });
+
+                for (const auto& elem : *temp)
+                {
+                    std::cout << std::left << std::setw(30) << elem->getName() << " | "
+                        << std::setw(30) << elem->getParent() << " | "
+                        << std::setw(30) << elem->getCode() << "\n";
+                }
+                temp->clear();
+                filterNumber = 0;
+                break;
+            case 2:
+                std::cout << "zadaj slovo ktore ma obashovat \n";
+                std::cin >> prefix;
+                filter->findNameWithPropertyT(temp, tableObce->begin(), tableObce->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry->getName().length() < prefix.length()) {
+                            return false;
+                        }
+
+                if (entry->getName().find(prefix) != std::string::npos) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+                    });
+                filter->findNameWithPropertyT(temp, tableOkresy->begin(), tableOkresy->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry->getName().length() < prefix.length()) {
+                            return false;
+                        }
+
+                if (entry->getName().find(prefix) != std::string::npos) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+                    });
+                filter->findNameWithPropertyT(temp, tableKraje->begin(), tableKraje->end(), [&prefix](const auto& entry)
+                    {
+                        if (entry->getName().length() < prefix.length()) {
+                            return false;
+                        }
+
+                if (entry->getName().find(prefix) != std::string::npos) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+                    });
+                for (const auto& elem : *temp)
+                {
+                    std::cout << std::left << std::setw(30) << elem->getName() << " | "
+                        << std::setw(30) << elem->getParent() << " | "
+                        << std::setw(30) << elem->getCode() << "\n";
+                }
+                temp->clear();
+                filterNumber = 0;
+
+                break;
+            default:
+                std::cout << "invalid input";
+                std::cin >> filterNumber;
+                break;
+            }
+            break;
+           
+
         case 0:
             std::cout << "\n zvolil si end.";
             end = true;
@@ -382,16 +512,24 @@ int main() {
     for (auto& item : *kraje) {
         delete item;
     }
+    delete kraje;
     for (auto& item : *slovensko) {
         delete item;
     }
     delete slovensko;
-
     delete hierarchy;
-    delete kraje;
+
+    delete tableObce;
+    delete tableKraje;
+    delete tableOkresy;
+    delete tableSlovensko;
+
+
     delete temp;
     delete filter;
     delete loader;
+
+
 
     //std::cout << "Hello World!";
     return 0;
