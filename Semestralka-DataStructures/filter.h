@@ -14,13 +14,16 @@ public:
 
 
 
-	template<typename Iterator>
-	//std::map<std::string, uzemnaJednotka*>* findNameWithProperty(std::map<std::string, uzemnaJednotka*>* predicate,Iterator begin, Iterator end,Function func) const;
-	void findNameWithProperty(std::vector<uzemnaJednotka*>* data,Iterator begin, Iterator end, std::function<bool(uzemnaJednotka*)> predicate ) const;
+	//template<typename Iterator>
+	////std::map<std::string, uzemnaJednotka*>* findNameWithProperty(std::map<std::string, uzemnaJednotka*>* predicate,Iterator begin, Iterator end,Function func) const;
+	//void findNameWithProperty(std::vector<uzemnaJednotka*>* data,Iterator begin, Iterator end, std::function<bool(uzemnaJednotka*)> predicate ) const;
 
-    template<typename Iterator>
-    //std::map<std::string, uzemnaJednotka*>* findNameWithProperty(std::map<std::string, uzemnaJednotka*>* predicate,Iterator begin, Iterator end,Function func) const;
-    void findNameWithPropertyT(std::vector<uzemnaJednotka*>* data, Iterator begin, Iterator end, std::function<bool(uzemnaJednotka*)> predicate) const;
+    template <typename Iterator>
+    void findNameWithProperty(std::vector<uzemnaJednotka*>* data, Iterator begin, Iterator end, std::function<bool(uzemnaJednotka*)> predicate) const;
+
+    template<typename Iterator, typename Item>
+    void findNameWithPropertyT(std::vector<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>* data, Iterator begin, Iterator end, std::function<bool(Item*)> predicate);
+
 
 
 };
@@ -46,14 +49,15 @@ inline void Filter::findNameWithProperty(std::vector<uzemnaJednotka*>* data, Ite
     }
 }
 
-template<typename Iterator>
-inline void Filter::findNameWithPropertyT(std::vector<uzemnaJednotka*>* data, Iterator begin, Iterator end, std::function<bool(uzemnaJednotka*)> predicate) const
+template<typename Iterator, typename Item>
+inline void Filter::findNameWithPropertyT(std::vector<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>* data, Iterator begin, Iterator end, std::function<bool(Item*)> predicate)
 {
     for (Iterator it = begin; it != end; ++it) {
-        if (predicate((*it).data_)) {
+        //if (predicate((*it).data_)) {
+        if (predicate(&(*it))) {
             //std::string name = (*it).first;
             //*predicate->operator[](name) = *it->second;
-            data->push_back(((*it).data_));//pridat lambdu
+            data->push_back((&(*it)));//pridat lambdu
         }
     }
 }

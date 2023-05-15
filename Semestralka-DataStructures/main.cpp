@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include <string>
+#include <string.h>
 #include <vector>
 #include <iomanip>
 
@@ -9,29 +10,13 @@
 
 
 
-//  #include <libds/adt/abstract_data_type.h>
-//#include <libds/adt/array.h>
-//#include <libds/adt/list.h>
-//#include <libds/adt/priority_queue.h>
-//#include <libds/adt/queue.h>
 //#include <libds/adt/sorts.h>
-//#include <libds/adt/stack.h>
+
 #include <libds/adt/table.h>
 
 
-//#include <libds/amt/abstract_memory_type.h>
-//#include <libds/amt/explicit_hierarchy.h>
-//#include <libds/amt/explicit_network.h>
-//#include <libds/amt/explicit_sequence.h>
-//#include <libds/amt/hierarchy.h>
-#include <libds/amt/implicit_hierarchy.h>
-//#include <libds/amt/implicit_sequence.h>
-//#include <libds/amt/network.h>
-//#include <libds/amt/sequence.h>
 
-//#include <libds/mm/compact_memory_manager.h>
-//#include <libds/mm/memory_manager.h>
-//#include <libds/mm/memory_omanip.h>
+#include <libds/amt/implicit_hierarchy.h>
 
 #include <libds/constants.h>
 
@@ -101,6 +86,7 @@ int main() {
 
 
     std::vector<uzemnaJednotka*>* temp = new std::vector<uzemnaJednotka*>();
+    std::vector<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>* tempTableItems = new  std::vector< ds::adt::TreapItem<std::string, uzemnaJednotka*>*>();
     std::string prefix = "";
     auto node = hierarchy->accessRoot();
     auto tempNode = node->parent_;
@@ -132,37 +118,7 @@ int main() {
 
                 return true;
                     });
-                filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
-                    {
-                        if (entry->getName().length() < prefix.length()) {
-                            return false;
-                        }
-
-                // Check if the first prefix.length() characters of str match prefix
-                for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry->getName()[i] != prefix[i]) {
-                        return false;
-                    }
-                }
-
-                return true;
-                    });
-                filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), [&prefix](const auto& entry)
-                    {
-                        if (entry->getName().length() < prefix.length()) {
-                            return false;
-                        }
-
-                // Check if the first prefix.length() characters of str match prefix
-                for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry->getName()[i] != prefix[i]) {
-                        return false;
-                    }
-                }
-
-                return true;
-                    });
-
+               
                 for (const auto& elem : *temp)
                 {
                     std::cout << std::left << std::setw(30) << elem->getName() << " | "
@@ -188,32 +144,7 @@ int main() {
                     return false;
                 }
                     });
-                filter->findNameWithProperty(temp, okresy->begin(), okresy->end(), [&prefix](const auto& entry)
-                    {
-                        if (entry->getName().length() < prefix.length()) {
-                            return false;
-                        }
-
-                if (entry->getName().find(prefix) != std::string::npos) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-                    });
-                filter->findNameWithProperty(temp, kraje->begin(), kraje->end(), [&prefix](const auto& entry)
-                    {
-                        if (entry->getName().length() < prefix.length()) {
-                            return false;
-                        }
-
-                if (entry->getName().find(prefix) != std::string::npos) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-                    });
+                
                 for (const auto& elem : *temp)
                 {
                     std::cout << std::left << std::setw(30) << elem->getName() << " | "
@@ -368,47 +299,17 @@ int main() {
             case 1:
                 std::cout << "zadaj slovo na ktore ma zacinat \n";
                 std::cin >> prefix;
-                filter->findNameWithPropertyT(temp, tableObce->begin(), tableObce->end(), [&](const auto& entry)
+                filter->findNameWithPropertyT<ds::adt::Treap<std::string, uzemnaJednotka*>::IteratorType, ds::adt::TreapItem<std::string, uzemnaJednotka*>>(tempTableItems, tableObce->begin(), tableObce->end(), [&](const auto& entry)
                     {
                         //if (entry..length() < prefix.length()) {
-                        if (entry->getName().length() < prefix.length()) {
+                        if (entry->data_->getName().length() < prefix.length()) {
                             return false;
                         }
 
 
                 // Check if the first prefix.length() characters of str match prefix
                 for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry->getName()[i] != prefix[i]) {
-                        return false;
-                    }
-                }
-
-                return true;
-                    });
-                filter->findNameWithPropertyT(temp, tableOkresy->begin(), tableOkresy->end(), [&prefix](const auto& entry)
-                    {
-                        if (entry->getName().length() < prefix.length()) {
-                            return false;
-                        }
-
-                // Check if the first prefix.length() characters of str match prefix
-                for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry->getName()[i] != prefix[i]) {
-                        return false;
-                    }
-                }
-
-                return true;
-                    });
-                filter->findNameWithPropertyT(temp, tableKraje->begin(), tableKraje->end(), [&prefix](const auto& entry)
-                    {
-                        if (entry->getName().length() < prefix.length()) {
-                            return false;
-                        }
-
-                // Check if the first prefix.length() characters of str match prefix
-                for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry->getName()[i] != prefix[i]) {
+                    if (entry->data_->getName()[i] != prefix[i]) {
                         return false;
                     }
                 }
@@ -416,64 +317,38 @@ int main() {
                 return true;
                     });
 
-                for (const auto& elem : *temp)
+                for (const auto& elem : *tempTableItems)
                 {
-                    std::cout << std::left << std::setw(30) << elem->getName() << " | "
-                        << std::setw(30) << elem->getParent() << " | "
-                        << std::setw(30) << elem->getCode() << "\n";
+                    std::cout << std::left << std::setw(30) << elem->data_->getName() << " | "
+                        << std::setw(30) << elem->data_->getParent() << " | "
+                        << std::setw(30) << elem->data_->getCode() << "\n";
                 }
-                temp->clear();
+                tempTableItems->clear();
                 filterNumber = 0;
                 break;
             case 2:
                 std::cout << "zadaj slovo ktore ma obashovat \n";
                 std::cin >> prefix;
-                filter->findNameWithPropertyT(temp, tableObce->begin(), tableObce->end(), [&prefix](const auto& entry)
-                    {
-                        if (entry->getName().length() < prefix.length()) {
+                filter->findNameWithPropertyT<ds::adt::Treap<std::string, uzemnaJednotka*>::IteratorType, ds::adt::TreapItem<std::string, uzemnaJednotka*>>(tempTableItems, tableObce->begin(), tableObce->end(), [&](const auto& entry) {
+                        if (entry->data_->getName().length() < prefix.length()) {
                             return false;
                         }
 
-                if (entry->getName().find(prefix) != std::string::npos) {
+                if (entry->data_->getName().find(prefix) != std::string::npos) {
                     return true;
                 }
                 else {
                     return false;
                 }
                     });
-                filter->findNameWithPropertyT(temp, tableOkresy->begin(), tableOkresy->end(), [&prefix](const auto& entry)
-                    {
-                        if (entry->getName().length() < prefix.length()) {
-                            return false;
-                        }
-
-                if (entry->getName().find(prefix) != std::string::npos) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-                    });
-                filter->findNameWithPropertyT(temp, tableKraje->begin(), tableKraje->end(), [&prefix](const auto& entry)
-                    {
-                        if (entry->getName().length() < prefix.length()) {
-                            return false;
-                        }
-
-                if (entry->getName().find(prefix) != std::string::npos) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-                    });
-                for (const auto& elem : *temp)
+                
+                for (const auto& elem : *tempTableItems)
                 {
-                    std::cout << std::left << std::setw(30) << elem->getName() << " | "
-                        << std::setw(30) << elem->getParent() << " | "
-                        << std::setw(30) << elem->getCode() << "\n";
+                    std::cout << std::left << std::setw(30) << elem->data_->getName() << " | "
+                        << std::setw(30) << elem->data_->getParent() << " | "
+                        << std::setw(30) << elem->data_->getCode() << "\n";
                 }
-                temp->clear();
+                tempTableItems->clear();
                 filterNumber = 0;
 
                 break;
@@ -500,7 +375,7 @@ int main() {
 
 
 
-
+    //vectors
     for (auto& item : *obce) {
         delete item;
     }
@@ -517,8 +392,11 @@ int main() {
         delete item;
     }
     delete slovensko;
+
+    //hierarchy
     delete hierarchy;
 
+    //table
     delete tableObce;
     delete tableKraje;
     delete tableOkresy;
@@ -526,6 +404,7 @@ int main() {
 
 
     delete temp;
+    delete tempTableItems;
     delete filter;
     delete loader;
 
