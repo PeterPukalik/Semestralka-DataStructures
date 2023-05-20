@@ -14,6 +14,8 @@
 
 #include <libds/adt/table.h>
 
+#include <libds/adt/sorts.h>
+
 
 
 #include <libds/amt/implicit_hierarchy.h>
@@ -38,12 +40,15 @@ int main() {
 
     Loader* loader = new Loader();
     Filter* filter = new Filter();
+    ds::adt::ShellSort<uzemnaJednotka*> shellSort;
 
 
     std::vector<uzemnaJednotka*>* obce = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* okresy = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* kraje = new std::vector<uzemnaJednotka*>();
     std::vector<uzemnaJednotka*>* slovensko = new std::vector<uzemnaJednotka*>();
+
+    std::vector<uzemnaJednotka*>* filterVector = obce;
 
 
     ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>* hierarchy = new ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka*>();
@@ -53,6 +58,12 @@ int main() {
     ds::adt::Treap<std::string, uzemnaJednotka*>* tableOkresy = new ds::adt::Treap<std::string, uzemnaJednotka*>();
     ds::adt::Treap<std::string, uzemnaJednotka*>* tableKraje = new ds::adt::Treap<std::string, uzemnaJednotka*>();
     ds::adt::Treap<std::string, uzemnaJednotka*>* tableSlovensko = new ds::adt::Treap<std::string, uzemnaJednotka*>();
+
+
+
+    ds::adt::Treap<std::string, uzemnaJednotka*>* filterTable = tableObce;
+
+
 
     loader->loadObce(obce);
     loader->loadOkresy(okresy, obce);
@@ -87,22 +98,49 @@ int main() {
 
     std::vector<uzemnaJednotka*>* temp = new std::vector<uzemnaJednotka*>();
     std::vector<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>* tempTableItems = new  std::vector< ds::adt::TreapItem<std::string, uzemnaJednotka*>*>();
+    //ds::amt::ImplicitSequence<uzemnaJednotka*>* temp = new ds::amt::ImplicitSequence<uzemnaJednotka*>();
+    //ds::amt::ImplicitSequence<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>* tempTableItems = new ds::amt::ImplicitSequence<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>();
+    //ds::amt::ImplicitSequence< ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>* tempHieraryItem = new ds::amt::ImplicitSequence< ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>();
+    ds::adt::TableItem<std::string, uzemnaJednotka*>* item = nullptr;
+
     std::string prefix = "";
     auto node = hierarchy->accessRoot();
     auto tempNode = node->parent_;
 
     while (!end) {
-        std::cout << "tvoje moznosti su:\n 1.filtrovat\n 2.hierarchia\n 3. table \n 0.end \n zadaj cislo pre pokracovanie \n ";
+        std::cout << "tvoje moznosti su: \n 1.vyber suboru na filtrovanie\n 2.filtrovat\n 3.hierarchia\n 4. table \n 0.end \n zadaj cislo pre pokracovanie \n ";
         std::cin >> control;
         switch (control) {
         case 1:
+            std::cout << "zvolil si vyber zo suborov \n 1.obce \n 2. okresy \n 3. kraje \n";
+            std::cin >> filterNumber;
+            switch (filterNumber) {
+            case 1:
+                filterVector = obce;
+                filterTable = tableObce;
+                break;
+            case 2:
+                filterVector = okresy;
+                filterTable = tableOkresy;
+                break;
+            case 3:
+                filterVector = kraje;
+                filterTable = tableKraje;
+                break;
+            default:
+                std::cout << "invalid input";
+                std::cin >> filterNumber;
+                break;
+            }
+            break;
+        case 2:
             std::cout << "zvolil si filtrovanie \n mas moznost: \n 1. pre filtrovanie startwithStr \n 2. pre filtrovanie containsStr \n";
             std::cin >> filterNumber;
             switch (filterNumber) {
             case 1:
                 std::cout << "zadaj slovo na ktore ma zacinat \n";
                 std::cin >> prefix;
-                filter->findNameWithProperty(temp, obce->begin(), obce->end(), [&prefix](const auto& entry)
+                filter->findNameWithProperty(temp, filterVector->begin(), filterVector->end(), [&prefix](const auto& entry)
                     {
                         //if (entry..length() < prefix.length()) {
                         if (entry->getName().length() < prefix.length()) {
@@ -125,13 +163,15 @@ int main() {
                         << std::setw(30) << elem->getParent() << " | "
                         << std::setw(30) << elem->getCode() << "\n";
                 }
+                
+
                 temp->clear();
                 filterNumber = 0;
                 break;
             case 2:
                 std::cout << "zadaj slovo ktore ma obashovat \n";
                 std::cin >> prefix;
-                filter->findNameWithProperty(temp, obce->begin(), obce->end(), [&prefix](const auto& entry)
+                filter->findNameWithProperty(temp, filterVector->begin(), filterVector->end(), [&prefix](const auto& entry)
                     {
                         if (entry->getName().length() < prefix.length()) {
                             return false;
@@ -161,7 +201,7 @@ int main() {
                 break;
             }
             break;
-        case 2:
+        case 3:
             std::cout << "zvolil si cestovanie v hierarchii \n";
             size_t inputOrder;
             while (!stop) {
@@ -247,6 +287,26 @@ int main() {
                         return false;
                     }
                         });
+                    //filter->findNameWithPropertyUniversal < ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>, ds::amt::ImplicitSequence <ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>::IteratorType, ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka* >> (tempHieraryItem, node->sons_->begin(), node->sons_->end(), [&prefix, &node](const auto& entry)
+                    //    {
+                    //        if (entry->data_->getName() == node->data_->getName()) {
+                    //            return false;
+                    //        }
+                    //if (entry->data_->getParent() != node->data_->getName()) {
+                    //    return false;
+                    //}
+                    //if (entry->data_->getName().length() < prefix.length()) {
+                    //    return false;
+                    //}
+
+                    //if (entry->data_->getName().find(prefix) != std::string::npos) {
+                    //    std::cout << entry->data_->getName() << std::endl;
+                    //    return true;
+                    //}
+                    //else {
+                    //    return false;
+                    //}
+                    //    });
                     break;
                 case 7://start
                     std::cout << "zadaj slovo na ktore ma zacinat \n";
@@ -292,65 +352,37 @@ int main() {
                 }
             }
             break;
-        case 3:
-            std::cout << "zvolil si filtrovanie v tabulke \n mas moznost: \n 1. pre filtrovanie startwithStr \n 2. pre filtrovanie containsStr \n";
+        case 4:
+            std::cout << "zvolil si filtrovanie v tabulke \n mas moznost: \n 1. pre filtrovanie  \n";
             std::cin >> filterNumber;
             switch (filterNumber) {
             case 1:
                 std::cout << "zadaj slovo na ktore ma zacinat \n";
                 std::cin >> prefix;
-                filter->findNameWithPropertyT<ds::adt::Treap<std::string, uzemnaJednotka*>::IteratorType, ds::adt::TreapItem<std::string, uzemnaJednotka*>>(tempTableItems, tableObce->begin(), tableObce->end(), [&](const auto& entry)
-                    {
-                        //if (entry..length() < prefix.length()) {
-                        if (entry->data_->getName().length() < prefix.length()) {
-                            return false;
+                
+                if (filterTable->tryFindTabItem(prefix,item)) {
+                    std::cout << std::left << std::setw(30) << item->data_->getName() << " | "
+                        << std::setw(30) << item->data_->getParent() << " | "
+                        << std::setw(30) << item->data_->getCode() << "\n";
+                     if (item->synonyms_.size() >= 1) {
+                        for (auto i : item->synonyms_) {
+                            std::cout << std::left << std::setw(30) << i->getName() << " | "
+                                << std::setw(30) << i->getParent() << " | "
+                                << std::setw(30) << i->getCode() << "\n";
                         }
-
-
-                // Check if the first prefix.length() characters of str match prefix
-                for (size_t i = 0; i < prefix.length(); ++i) {
-                    if (entry->data_->getName()[i] != prefix[i]) {
-                        return false;
                     }
                 }
-
-                return true;
-                    });
-
-                for (const auto& elem : *tempTableItems)
-                {
-                    std::cout << std::left << std::setw(30) << elem->data_->getName() << " | "
-                        << std::setw(30) << elem->data_->getParent() << " | "
-                        << std::setw(30) << elem->data_->getCode() << "\n";
-                }
-                tempTableItems->clear();
-                filterNumber = 0;
-                break;
-            case 2:
-                std::cout << "zadaj slovo ktore ma obashovat \n";
-                std::cin >> prefix;
-                filter->findNameWithPropertyT<ds::adt::Treap<std::string, uzemnaJednotka*>::IteratorType, ds::adt::TreapItem<std::string, uzemnaJednotka*>>(tempTableItems, tableObce->begin(), tableObce->end(), [&](const auto& entry) {
-                        if (entry->data_->getName().length() < prefix.length()) {
-                            return false;
-                        }
-
-                if (entry->data_->getName().find(prefix) != std::string::npos) {
-                    return true;
-                }
                 else {
-                    return false;
+                    std::cout << "tabulka neobsahuje kluc\n";
                 }
-                    });
-                
-                for (const auto& elem : *tempTableItems)
-                {
-                    std::cout << std::left << std::setw(30) << elem->data_->getName() << " | "
-                        << std::setw(30) << elem->data_->getParent() << " | "
-                        << std::setw(30) << elem->data_->getCode() << "\n";
-                }
+                //for (const auto& elem : *tempTableItems)
+                //{
+                //    std::cout << std::left << std::setw(30) << elem->data_->getName() << " | "
+                //        << std::setw(30) << elem->data_->getParent() << " | "
+                //        << std::setw(30) << elem->data_->getCode() << "\n";
+                //}
                 tempTableItems->clear();
                 filterNumber = 0;
-
                 break;
             default:
                 std::cout << "invalid input";
@@ -403,8 +435,12 @@ int main() {
     delete tableSlovensko;
 
 
+
     delete temp;
     delete tempTableItems;
+    //delete tempHieraryItem;
+
+
     delete filter;
     delete loader;
 

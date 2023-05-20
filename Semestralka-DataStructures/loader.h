@@ -257,21 +257,21 @@ inline void Loader::loadSlovenskoH(ds::amt::MultiWayExplicitHierarchy<uzemnaJedn
 inline void Loader::loadObceT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* obce)
 {
 	for (auto item : *obce) {
-		table->insert(item->getName(), item);
+		table->insertWithDuplicates(item->getName(), item);
 	}
 }
 
 inline void Loader::loadOkresyT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* okresy)
 {
 	for (auto item : *okresy) {
-		table->insert(item->getName(), item);
+		table->insertWithDuplicates(item->getName(), item);
 	}
 }
 
 inline void Loader::loadKrajeT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* kraje)
 {
 	for (auto item : *kraje) {
-		table->insert(item->getName(), item);
+		table->insertWithDuplicates(item->getName(), item);
 
 	}
 }
@@ -279,7 +279,7 @@ inline void Loader::loadKrajeT(ds::adt::Treap<std::string, uzemnaJednotka*>* tab
 inline void Loader::loadSlovenskoT(ds::adt::Treap<std::string, uzemnaJednotka*>* table, std::vector<uzemnaJednotka*>* slovensko)
 {
 	for (auto item : *slovensko) {
-		table->insert(item->getName(), item);
+		table->insertWithDuplicates(item->getName(), item);
 	}
 }
 
@@ -336,7 +336,8 @@ inline void Loader::loadObce(std::vector<uzemnaJednotka*>* obce) {
 
 
 	std::ifstream file;
-	std::string filename = "C:\\Users\\pukal\\source\\repos\\AUS-VS2022\\Semestralka-DataStructures\\obce.csv";
+	std::string filename = "C:\\Users\\pukal\\source\\repos\\AUS-VS2022\\Semestralka-DataStructures\\obceWithDuplicatescsv.csv";
+	//std::string filename = "C:\\Users\\pukal\\source\\repos\\AUS-VS2022\\Semestralka-DataStructures\\obce.csv";
 	file.open(filename,std::ios::in);
 	if (!file.is_open())
 	{
