@@ -1,28 +1,26 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <string.h>
 #include <vector>
 #include <iomanip>
+#include <algorithm>  
+#include <cctype>    
+#include <locale>
+
 
 #include "uzemnaJednotka.h"
 #include "loader.h"
 #include "filter.h"
 
 
-
-//#include <libds/adt/sorts.h>
-
 #include <libds/adt/table.h>
 
 #include <libds/adt/sorts.h>
 
-
-
 #include <libds/amt/implicit_hierarchy.h>
+#include <libds/amt/implicit_sequence.h>
 
 #include <libds/constants.h>
-
-
 
 #include <libds/heap_monitor.h>
 
@@ -30,6 +28,83 @@
 
 #include <Windows.h>
 
+
+
+void sort(ds::adt::QuickSortVector<uzemnaJednotka*>* sorter, std::vector<uzemnaJednotka*>* vector) {
+    auto compareAlphabetically = [&](uzemnaJednotka* const& a, uzemnaJednotka* const& b) {
+        std::locale slovakLocale("Slovak_Slovakia.1250");
+        //std::locale slovakLocale("sk_SK.UTF-8");
+        const std::collate<char>& coll = std::use_facet<std::collate<char>>(slovakLocale);
+        std::string nameA = a->getName();
+        std::string nameB = b->getName();
+        //std::cout << "Comparing names: " << a->getName() << " and " << b->getName() << std::endl;
+        // Convert names to lowercase
+        std::transform(nameA.begin(), nameA.end(), nameA.begin(), [&](unsigned char c) { return std::tolower(c, slovakLocale); });
+        std::transform(nameB.begin(), nameB.end(), nameB.begin(), [&](unsigned char c) { return std::tolower(c, slovakLocale); });
+
+        return coll.compare(nameA.data(), nameA.data() + nameA.size(),
+            nameB.data(), nameB.data() + nameB.size()) < 0;
+    };
+    auto compareByVowels = [&](uzemnaJednotka* const& a, uzemnaJednotka* const& b) {
+        auto countVowels = [](std::string& name) {
+            std::vector<std::string> vowels = { "a", "á", "ä", "e", "é", "i","í", "o", "ó", "u", "ú","ô" };
+            int vowelCount = 0;
+            for (size_t i = 0; i < name.length(); i++)
+            {
+                if (std::find(vowels.begin(), vowels.end(), std::string(1, name[i])) != vowels.end()) {
+                    vowelCount++;
+                }
+            }
+            return vowelCount;
+        };
+
+        std::string nameA = a->getName();
+        std::string nameB = b->getName();
+        // std::cout << "Comparing names: " << a->getName() << " and " << b->getName() << std::endl;
+        std::transform(nameA.begin(), nameA.end(), nameA.begin(), [](unsigned char c) { return std::tolower(c); });
+        std::transform(nameB.begin(), nameB.end(), nameB.begin(), [](unsigned char c) { return std::tolower(c); });
+        int vowelCountA = countVowels(nameA);
+        int vowelCountB = countVowels(nameB);
+        //std::cout << std::to_string(vowelCountA) + " " + nameA << std::endl;
+        //std::cout << std::to_string(vowelCountB) + " " + nameB << std::endl;
+
+        return vowelCountA < vowelCountB;
+    };
+    bool stop = false;
+    int control = 0;
+    while (!stop) {
+        std::cout << "vybral si si sortovanie \n 1. pre sort podla abecedey \n 2. pre sort podla samohlasok \n 3. koniec sortovania\n";
+        std::cin >> control;
+        switch (control) {
+        case 1:
+            sorter->sort(*vector, compareAlphabetically);
+            for (const auto& elem : *vector)
+            {
+                std::cout << std::left << std::setw(30) << elem->getName() << " | "
+                    << std::setw(30) << elem->getParent() << " | "
+                    << std::setw(30) << elem->getCode() << "\n";
+            }
+            break;
+        case 2:
+            sorter->sort(*vector, compareByVowels);
+            for (const auto& elem : *vector)
+            {
+                std::cout << std::left << std::setw(30) << elem->getName() << " | "
+                    << std::setw(30) << elem->getParent() << " | "
+                    << std::setw(30) << elem->getCode() << "\n";
+            }
+            break;
+        case 3:
+            stop = true;
+            break;
+        default:
+            break;
+        }
+        
+    }
+    return;
+
+}
 
 int main() {
 
@@ -40,7 +115,7 @@ int main() {
 
     Loader* loader = new Loader();
     Filter* filter = new Filter();
-    ds::adt::ShellSort<uzemnaJednotka*> shellSort;
+    ds::adt::QuickSortVector<uzemnaJednotka*> sorter;
 
 
     std::vector<uzemnaJednotka*>* obce = new std::vector<uzemnaJednotka*>();
@@ -97,10 +172,11 @@ int main() {
 
 
     std::vector<uzemnaJednotka*>* temp = new std::vector<uzemnaJednotka*>();
-    std::vector<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>* tempTableItems = new  std::vector< ds::adt::TreapItem<std::string, uzemnaJednotka*>*>();
+
     //ds::amt::ImplicitSequence<uzemnaJednotka*>* temp = new ds::amt::ImplicitSequence<uzemnaJednotka*>();
     //ds::amt::ImplicitSequence<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>* tempTableItems = new ds::amt::ImplicitSequence<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>();
-    //ds::amt::ImplicitSequence< ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>* tempHieraryItem = new ds::amt::ImplicitSequence< ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>();
+
+    std::vector< ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>* tempHieraryItem = new std::vector< ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>();
     ds::adt::TableItem<std::string, uzemnaJednotka*>* item = nullptr;
 
     std::string prefix = "";
@@ -163,7 +239,11 @@ int main() {
                         << std::setw(30) << elem->getParent() << " | "
                         << std::setw(30) << elem->getCode() << "\n";
                 }
-                
+                std::cout << "chces sortnut vystup?\n 0 nie\n 1 ano\n";
+                std::cin >> control;
+                if (control == 1) {
+                    sort(&sorter, temp);
+                }
 
                 temp->clear();
                 filterNumber = 0;
@@ -191,6 +271,13 @@ int main() {
                         << std::setw(30) << elem->getParent() << " | "
                         << std::setw(30) << elem->getCode() << "\n";
                 }
+
+                std::cout << "chces sortnut vystup?\n 0 nie\n 1 ano\n";
+                std::cin >> control;
+                if (control == 1) {
+                    sort(&sorter, temp);
+                }
+
                 temp->clear();
                 filterNumber = 0;
 
@@ -267,7 +354,7 @@ int main() {
                 case 6://contains
                     std::cout << "zadaj slovo ktore ma obsahovat \n";
                     std::cin >> prefix;
-                    hierarchy->processPreOrder(node, [&prefix, &node](const auto& entry)
+                    hierarchy->processPreOrder(node, [&](const auto& entry)
                         {
                             if (entry->data_->getName() == node->data_->getName()) {
                                 return false;
@@ -280,14 +367,16 @@ int main() {
                     }
 
                     if (entry->data_->getName().find(prefix) != std::string::npos) {
-                        std::cout << entry->data_->getName() << std::endl;
+                        //std::cout << entry->data_->getName() << std::endl;
+                        temp->push_back(entry->data_);
                         return true;
                     }
                     else {
                         return false;
                     }
-                        });
-                    //filter->findNameWithPropertyUniversal < ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>, ds::amt::ImplicitSequence <ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>::IteratorType, ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka* >> (tempHieraryItem, node->sons_->begin(), node->sons_->end(), [&prefix, &node](const auto& entry)
+                       });
+                    //filter->findNameWithPropertyUniversal<ds::amt::IS<ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>*>::ImplicitSequenceIterator, ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>
+                    //    (tempHieraryItem, node->sons_->begin(), node->sons_->end(), [&](const auto& entry)
                     //    {
                     //        if (entry->data_->getName() == node->data_->getName()) {
                     //            return false;
@@ -307,11 +396,24 @@ int main() {
                     //    return false;
                     //}
                     //    });
+                    for (const auto& elem : *temp)
+                    {
+                        std::cout << std::left << std::setw(30) << elem->getName() << " | "
+                            << std::setw(30) << elem->getParent() << " | "
+                            << std::setw(30) << elem->getCode() << "\n";
+                    }
+                    std::cout << "chces sortnut vystup?\n 0 nie\n 1 ano\n";
+                    std::cin >> control;
+                    if (control == 1) {
+                        sort(&sorter, temp);
+                    }
+
+                    temp->clear();
                     break;
                 case 7://start
                     std::cout << "zadaj slovo na ktore ma zacinat \n";
                     std::cin >> prefix;
-                    hierarchy->processPreOrder(node, [&prefix, &node](const auto& entry)
+                    hierarchy->processPreOrder(node, [&](const auto& entry)
                         {
                             if (entry->data_->getName() == node->data_->getName()) {
                                 return false;
@@ -332,9 +434,21 @@ int main() {
                         }
                     }
                     std::cout << entry->data_->getName() << std::endl;
+                    //temp->push_back(entry->data_);
                     return true;
                         });
-
+                    for (const auto& elem : *temp)
+                    {
+                        std::cout << std::left << std::setw(30) << elem->getName() << " | "
+                            << std::setw(30) << elem->getParent() << " | "
+                            << std::setw(30) << elem->getCode() << "\n";
+                    }
+                    std::cout << "chces sortnut vystup?\n 0 nie\n 1 ano\n";
+                    std::cin >> control;
+                    if (control == 1) {
+                        sort(&sorter, temp);
+                    }
+                    temp->clear();
                     break;
                 case 8:
                     hierarchy->processPreOrder(node, [&node](const auto& entry)
@@ -381,7 +495,7 @@ int main() {
                 //        << std::setw(30) << elem->data_->getParent() << " | "
                 //        << std::setw(30) << elem->data_->getCode() << "\n";
                 //}
-                tempTableItems->clear();
+
                 filterNumber = 0;
                 break;
             default:
@@ -437,8 +551,8 @@ int main() {
 
 
     delete temp;
-    delete tempTableItems;
-    //delete tempHieraryItem;
+
+    delete tempHieraryItem;
 
 
     delete filter;
