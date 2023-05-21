@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Filter">
-    <Position X="2.5" Y="3.25" Width="1.5" />
+    <Position X="1" Y="3.25" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAAEAAAAAAAAAAAAAAhAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>filter.h</FileName>
@@ -19,34 +19,6 @@
     <TypeIdentifier>
       <HashCode>BIAACAAAAAAAAABAAAAAAAAAIAAEAABAAAAEAABAAAA=</HashCode>
       <FileName>uzemnaJednotka.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ds::adt::structure_error">
-    <Position X="14.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>C:\Users\pukal\source\repos\AUS-VS2022\DataStructures\DataStructures\libds\adt\abstract_data_type.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ds::adt::AbstractDataType" Collapsed="true">
-    <Position X="12.75" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>C:\Users\pukal\source\repos\AUS-VS2022\DataStructures\DataStructures\libds\adt\abstract_data_type.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ds::adt::AbstractDataStructure&lt;T&gt;">
-    <Position X="14.5" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>C:\Users\pukal\source\repos\AUS-VS2022\DataStructures\DataStructures\libds\adt\abstract_data_type.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ds::adt::AbstractDataMultistructure&lt;T&gt;" Collapsed="true">
-    <Position X="12.75" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>C:\Users\pukal\source\repos\AUS-VS2022\DataStructures\DataStructures\libds\adt\abstract_data_type.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

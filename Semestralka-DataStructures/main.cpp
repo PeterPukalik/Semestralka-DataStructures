@@ -47,7 +47,7 @@ void sort(ds::adt::QuickSortVector<uzemnaJednotka*>* sorter, std::vector<uzemnaJ
     };
     auto compareByVowels = [&](uzemnaJednotka* const& a, uzemnaJednotka* const& b) {
         auto countVowels = [](std::string& name) {
-            std::vector<std::string> vowels = { "a", "á", "ä", "e", "é", "i","í", "o", "ó", "u", "ú","ô" };
+            std::vector<std::string> vowels = { "a", "á", "ä", "e", "é", "i","í", "o", "ó", "u", "ú","ô" ,"y","ý"};
             int vowelCount = 0;
             for (size_t i = 0; i < name.length(); i++)
             {
@@ -329,7 +329,6 @@ int main() {
 
                         }
 
-                        // Implement logic to select a child node and update node accordingly
                     }
                     else {
                         std::cout << "No child nodes available \n";
