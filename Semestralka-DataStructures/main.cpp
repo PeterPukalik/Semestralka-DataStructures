@@ -177,6 +177,7 @@ int main() {
     //ds::amt::ImplicitSequence<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>* tempTableItems = new ds::amt::ImplicitSequence<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>();
 
     std::vector< ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>* tempHieraryItem = new std::vector< ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>();
+  
     ds::adt::TableItem<std::string, uzemnaJednotka*>* item = nullptr;
 
     std::string prefix = "";
@@ -216,8 +217,9 @@ int main() {
             case 1:
                 std::cout << "zadaj slovo na ktore ma zacinat \n";
                 std::cin >> prefix;
-                filter->findNameWithProperty(temp, filterVector->begin(), filterVector->end(), [&prefix](const auto& entry)
+                filter->findNameWithPropertyUniversal<std::vector<uzemnaJednotka*>::iterator,uzemnaJednotka*>(temp, filterVector->begin(), filterVector->end(), [&](auto entry)
                     {
+
                         //if (entry..length() < prefix.length()) {
                         if (entry->getName().length() < prefix.length()) {
                             return false;
@@ -293,7 +295,7 @@ int main() {
             size_t inputOrder;
             while (!stop) {
                 std::cout << "aktualne si " << node->data_->getName() << std::endl << std::endl;
-                std::cout << "mozes sa pohybovat hore a dole , 1-hore,2-dole,3-doprava,4-dolava \n alebo pre ukoncenie prehladavanie hierarchie - 5\n pre filtrovanie v hierarchi funkciou containsStr 6\n pre filtrovanie v hierarchii funkciou startsWithStr 7 \n 8 pre vypisanie aktualnej urovne\n";
+                std::cout << "mozes sa pohybovat hore a dole , 1-hore,2-dole,3-doprava,4-dolava  \n 6 -pre filtrovanie v hierarchi funkciou containsStr \n 7- pre filtrovanie v hierarchii funkciou startsWithStr  \n 8 -pre vypisanie aktualnej urovne\n 0 - alebo pre ukoncenie prehladavanie hierarchie\n";
                 std::cin >> filterNumber;
                 switch (filterNumber) {
                 case 1:
@@ -307,20 +309,26 @@ int main() {
                     }
                     break;
                 case 2:
-                    if (node->sons_ != nullptr) {
+                    if (node->sons_->size() >0) {
                         auto item = node->sons_->accessFirst();
                         size_t index = 0;
+
                         while (node->sons_->accessNext(*item)) {
                             std::cout << index << " " << item->data_->data_->getName() << std::endl;
                             item = node->sons_->accessNext(*item);
                             index++;
                         }
+                        std::cout << index << " " << item->data_->data_->getName() << std::endl;
                         // Prompt the user to select a specific child node
                         std::cout << "Select a child node: \n";
 
                         std::cin >> inputOrder;
                         //pridate overenie
-                        node = hierarchy->accessSon(*node, inputOrder);
+                        if (hierarchy->accessSon(*node, inputOrder) != nullptr) {
+                            node = hierarchy->accessSon(*node, inputOrder);
+
+                        }
+
                         // Implement logic to select a child node and update node accordingly
                     }
                     else {
@@ -337,8 +345,6 @@ int main() {
                     }
                     break;
 
-
-
                 case 4:
                     if (node->parent_ != nullptr && (hierarchy->accessParent(*node)->sons_->access(inputOrder - 1)) != nullptr) {
                         node = (hierarchy->accessParent(*node)->sons_->access(inputOrder - 1))->data_; // Update node to the next right node
@@ -348,7 +354,7 @@ int main() {
                         std::cout << "No left nodes available.\n";
                     }
                     break;
-                case 5:
+                case 0:
                     stop = true;
                     break;
                 case 6://contains
@@ -375,21 +381,23 @@ int main() {
                         return false;
                     }
                        });
-                    //filter->findNameWithPropertyUniversal<ds::amt::IS<ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>*>::ImplicitSequenceIterator, ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>
-                    //    (tempHieraryItem, node->sons_->begin(), node->sons_->end(), [&](const auto& entry)
+
+                    //filter->findNameWithPropertyUniversal<ds::amt::IS<ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>*>::IteratorType, ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>
+                    //    (tempHieraryItem, node->sons_->begin(), node->sons_->end(), [&]( auto entry)
                     //    {
-                    //        if (entry->data_->getName() == node->data_->getName()) {
-                    //            return false;
-                    //        }
-                    //if (entry->data_->getParent() != node->data_->getName()) {
+                    //        //if (entry.data_->getName() == node->data_->getName()) {
+                    //        //    return false;
+                    //        //}
+                    //if (entry.data_->getParent() != node->data_->getName()) {
                     //    return false;
                     //}
-                    //if (entry->data_->getName().length() < prefix.length()) {
+                    //if (entry.data_->getName().length() < prefix.length()) {
                     //    return false;
                     //}
 
-                    //if (entry->data_->getName().find(prefix) != std::string::npos) {
-                    //    std::cout << entry->data_->getName() << std::endl;
+                    //if (entry.data_->getName().find(prefix) != std::string::npos) {
+                    //    std::cout << entry.data_->getName() << std::endl;
+                    //    temp->push_back(entry.data_);
                     //    return true;
                     //}
                     //else {
@@ -418,25 +426,47 @@ int main() {
                             if (entry->data_->getName() == node->data_->getName()) {
                                 return false;
                             }
-                    if ((entry->data_->getParent() != node->data_->getName() )  ) {
-                        return false;
-                    }
+                        if ((entry->data_->getParent() != node->data_->getName())) {
+                            return false;
+                        }
 
-                    //if (entry..length() < prefix.length()) {
                     if (entry->data_->getName().length() < prefix.length()) {
-                        return false;
-                    }
+                       return false;
+                     }
 
-                    // Check if the first prefix.length() characters of str match prefix
+                   
                     for (size_t i = 0; i < prefix.length(); ++i) {
                         if (entry->data_->getName()[i] != prefix[i]) {
                             return false;
                         }
                     }
-                    std::cout << entry->data_->getName() << std::endl;
-                    //temp->push_back(entry->data_);
+                    //std::cout << entry->data_->getName() << std::endl;
+                    temp->push_back(entry->data_);
                     return true;
                         });
+
+                    //filter->findNameWithPropertyUniversal<ds::amt::IS<ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>*>::IteratorType, ds::amt::MultiWayExplicitHierarchyBlock<uzemnaJednotka*>>
+                    //    (tempHieraryItem, node->sons_->begin(), node->sons_->end(), [&](auto entry)
+                    //    {
+
+                    //if ((entry.data_->getParent() != node->data_->getName())) {
+                    //    return false;
+                    //}
+
+
+                    //if (entry.data_->getName().length() < prefix.length()) {
+                    //    return false;
+                    //}
+
+                    //for (size_t i = 0; i < prefix.length(); ++i) {
+                    //    if (entry.data_->getName()[i] != prefix[i]) {
+                    //        return false;
+                    //    }
+                    //}
+                    //std::cout << entry.data_->getName() << std::endl;
+                    //temp->push_back(entry.data_);
+                    //return true;
+                    //    });
                     for (const auto& elem : *temp)
                     {
                         std::cout << std::left << std::setw(30) << elem->getName() << " | "
@@ -467,11 +497,9 @@ int main() {
             }
             break;
         case 4:
-            std::cout << "zvolil si filtrovanie v tabulke \n mas moznost: \n 1. pre filtrovanie  \n";
-            std::cin >> filterNumber;
-            switch (filterNumber) {
-            case 1:
-                std::cout << "zadaj slovo na ktore ma zacinat \n";
+            std::cout << "zvolil si filtrovanie v tabulke \n \n";
+
+                std::cout << "zadaj slovo ktore chces najst \n";
                 std::cin >> prefix;
                 
                 if (filterTable->tryFindTabItem(prefix,item)) {
@@ -496,13 +524,9 @@ int main() {
                 //        << std::setw(30) << elem->data_->getCode() << "\n";
                 //}
 
-                filterNumber = 0;
+
                 break;
-            default:
-                std::cout << "invalid input";
-                std::cin >> filterNumber;
-                break;
-            }
+
             break;
            
 

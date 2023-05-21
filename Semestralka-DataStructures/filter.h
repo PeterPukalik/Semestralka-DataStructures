@@ -27,8 +27,8 @@ public:
     //template<typename Iterator, typename Item>
     //void findNameWithPropertyT(std::vector<ds::adt::TreapItem<std::string, uzemnaJednotka*>*>* data, Iterator begin, Iterator end, std::function<bool(Item*)> predicate);
 
-    template< typename Iterator, typename Item>
-    void findNameWithPropertyUniversal(std::vector<Item>* data, Iterator begin, Iterator end, std::function<bool(Item*)> predicate);
+    template< typename Iterator, typename T>
+    void findNameWithPropertyUniversal(std::vector<T>* data, Iterator begin, Iterator end, std::function<bool(T)> predicate);
 
 
 };
@@ -45,11 +45,11 @@ inline Filter::~Filter()
 
 
 
-template<typename Iterator, typename Item>
-void findNameWithPropertyUniversal(std::vector<Item>* data, Iterator begin, Iterator end, std::function<bool(Item*)> predicate) {
+template< typename Iterator, typename T>
+inline void Filter::findNameWithPropertyUniversal(std::vector<T>* data, Iterator begin, Iterator end, std::function<bool(T)> predicate) {
     for (Iterator it = begin; it != end; ++it) {
         if (predicate(*it)) {
-            data->push_back((*it));
+            data->push_back(*it);
         }
     }
 }

@@ -30,6 +30,7 @@
     <None Include="..\kraje.csv" />
     <None Include="..\obce.csv" />
     <None Include="..\okresy.csv" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

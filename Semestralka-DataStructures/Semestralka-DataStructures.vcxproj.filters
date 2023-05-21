@@ -23,5 +23,6 @@
     <None Include="..\okresy.csv">
       <Filter>csvFiles</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

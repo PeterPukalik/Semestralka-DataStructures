@@ -233,8 +233,9 @@ inline void Loader::loadKrajeH(ds::amt::MultiWayExplicitHierarchy<uzemnaJednotka
 	size_t index = 0;
 	bool stop = false;
 	while (!stop) {
-		if (index == 8) {
+		if (index == 9) {
 			stop = true;
+			break;
 		}
 		hierarchy->emplaceSon(*hierarchy->accessRoot(), index);
 		hierarchy->accessSon(*hierarchy->accessRoot(), index)->data_ = kraje->at(index);
